@@ -1,2 +1,2 @@
 # Oyodo
-A parser SDK for kancolle kcsapi
+[NOTICE] This SDK is still under development, it is NOT usable.
