@@ -2,9 +2,9 @@ package cn.cctech.kancolle.oyodo.test
 
 import cn.cctech.kancolle.oyodo.Oyodo
 import cn.cctech.kancolle.oyodo.apis.Port
-import cn.cctech.kancolle.oyodo.managers.Fleet
-import cn.cctech.kancolle.oyodo.managers.Material
-import cn.cctech.kancolle.oyodo.managers.User
+import cn.cctech.kancolle.oyodo.apis.RequireInfo
+import cn.cctech.kancolle.oyodo.apis.Start
+import cn.cctech.kancolle.oyodo.managers.*
 import com.google.gson.reflect.TypeToken
 import org.junit.BeforeClass
 import org.junit.Test
@@ -15,8 +15,11 @@ class PortEventTest {
         @BeforeClass
         @JvmStatic
         fun read() {
-            val token = object : TypeToken<Port>() {}.type
-            val port = readApiFile<Port>("port", token)
+            val start = readApiFile<Start>("api_start2", object : TypeToken<Start>() {}.type)
+            start.process()
+            val requireInfo = readApiFile<RequireInfo>("require_info", object : TypeToken<RequireInfo>() {}.type)
+            requireInfo.process()
+            val port = readApiFile<Port>("port", object : TypeToken<Port>() {}.type)
             port.process()
         }
     }
@@ -48,11 +51,25 @@ class PortEventTest {
     fun fleet() {
         Fleet.deckNames.forEach { Oyodo.attention().watch(it, { System.out.println("fleetName : $it") }) }
         Fleet.deckShipIds.forEach { Oyodo.attention().watch(it, { System.out.println("shipIds : $it") }) }
+        System.out.println("Port ship count : ${Fleet.shipMap.size}")
+        System.out.println("Port slot count : ${Fleet.slotMap.size}")
     }
 
     @Test
     fun dock() {
-//        Dock.expeditionList.forEach { Oyodo.attention().watch(it, { System.out.println("nickname : ${it}") }) }
+        Dock.expeditionList.forEach { Oyodo.attention().watch(it, { System.out.println("Expedition : ${it.fleetIndex} to ${it.missionId}") }) }
+        Dock.repairList.forEach {
+            Oyodo.attention().watch(it, {
+                val ship = Fleet.shipMap[it.shipId]?.value
+                System.out.println("Repair : ${ship?.name}")
+            })
+        }
+    }
+
+    @Test
+    fun raw() {
+        System.out.println("Raw ship count : ${Raw.rawShipMap.size}")
+        System.out.println("Raw slot count : ${Raw.rawSlotMap.size}")
     }
 
 }

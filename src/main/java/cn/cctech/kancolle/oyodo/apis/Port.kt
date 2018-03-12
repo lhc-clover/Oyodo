@@ -2,10 +2,9 @@ package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.entities.Expedition
 import cn.cctech.kancolle.oyodo.entities.Repair
-import cn.cctech.kancolle.oyodo.managers.Dock
-import cn.cctech.kancolle.oyodo.managers.Fleet
-import cn.cctech.kancolle.oyodo.managers.Material
-import cn.cctech.kancolle.oyodo.managers.User
+import cn.cctech.kancolle.oyodo.entities.Ship
+import cn.cctech.kancolle.oyodo.managers.*
+import io.reactivex.subjects.BehaviorSubject
 
 data class Port(
         val api_result: Int = 0,
@@ -39,6 +38,14 @@ data class Port(
         User.kDockCount.onNext(api_data.api_basic.api_count_kdock)
         User.nDockCount.onNext(api_data.api_basic.api_count_ndock)
         User.deckCount.onNext(api_data.api_basic.api_count_deck)
+        // api_ship
+        Fleet.shipMap.clear()
+        api_data.api_ship.forEach {
+            val rawShip = Raw.rawShipMap[it.api_ship_id]
+            val ship = Ship(it, rawShip)
+            Fleet.shipMap[it.api_id] = BehaviorSubject.create()
+            Fleet.shipMap[it.api_id]?.onNext(ship)
+        }
     }
 
 }
@@ -82,6 +89,7 @@ data class ApiShip(
         val api_exp: List<Int> = listOf(),
         val api_nowhp: Int = 0,
         val api_maxhp: Int = 0,
+        val api_soku: Int = 0,
         val api_leng: Int = 0,
         val api_slot: List<Int> = listOf(),
         val api_onslot: List<Int> = listOf(),
