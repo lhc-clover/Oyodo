@@ -6,22 +6,22 @@ svdata={
                    {
                        "api_member_id": 11141519,
                        "api_id": 1,
-                       "api_value": 5071
+                       "api_value": 5250
                    },
                    {
                        "api_member_id": 11141519,
                        "api_id": 2,
-                       "api_value": 5326
+                       "api_value": 5390
                    },
                    {
                        "api_member_id": 11141519,
                        "api_id": 3,
-                       "api_value": 4826
+                       "api_value": 5280
                    },
                    {
                        "api_member_id": 11141519,
                        "api_id": 4,
-                       "api_value": 5221
+                       "api_value": 5250
                    },
                    {
                        "api_member_id": 11141519,
@@ -31,12 +31,12 @@ svdata={
                    {
                        "api_member_id": 11141519,
                        "api_id": 6,
-                       "api_value": 25
+                       "api_value": 26
                    },
                    {
                        "api_member_id": 11141519,
                        "api_id": 7,
-                       "api_value": 14
+                       "api_value": 12
                    },
                    {
                        "api_member_id": 11141519,
@@ -79,7 +79,7 @@ svdata={
                        ],
                        "api_flagship": "0",
                        "api_ship": [
-                           -1,
+                           28,
                            -1,
                            -1,
                            -1,
@@ -93,9 +93,9 @@ svdata={
                        "api_name": "第3艦隊",
                        "api_name_id": "",
                        "api_mission": [
-                           1,
-                           2,
-                           1520780301009,
+                           0,
+                           0,
+                           0,
                            0
                        ],
                        "api_flagship": "0",
@@ -114,25 +114,25 @@ svdata={
                    {
                        "api_member_id": 11141519,
                        "api_id": 1,
-                       "api_state": 1,
-                       "api_ship_id": 38,
-                       "api_complete_time": 1520794684641,
-                       "api_complete_time_str": "2018-03-12 03:58:04",
-                       "api_item1": 120,
+                       "api_state": 0,
+                       "api_ship_id": 0,
+                       "api_complete_time": 0,
+                       "api_complete_time_str": "0",
+                       "api_item1": 0,
                        "api_item2": 0,
-                       "api_item3": 225,
+                       "api_item3": 0,
                        "api_item4": 0
                    },
                    {
                        "api_member_id": 11141519,
                        "api_id": 2,
-                       "api_state": 1,
-                       "api_ship_id": 63,
-                       "api_complete_time": 1520788470360,
-                       "api_complete_time_str": "2018-03-12 02:14:30",
-                       "api_item1": 92,
+                       "api_state": 0,
+                       "api_ship_id": 0,
+                       "api_complete_time": 0,
+                       "api_complete_time_str": "0",
+                       "api_item1": 0,
                        "api_item2": 0,
-                       "api_item3": 172,
+                       "api_item3": 0,
                        "api_item4": 0
                    },
                    {
@@ -337,9 +337,9 @@ svdata={
                        "api_ship_id": 2,
                        "api_lv": 10,
                        "api_exp": [
-                           4997,
-                           503,
-                           49
+                           5057,
+                           443,
+                           55
                        ],
                        "api_nowhp": 13,
                        "api_maxhp": 13,
@@ -370,7 +370,7 @@ svdata={
                            0
                        ],
                        "api_backs": 2,
-                       "api_fuel": 15,
+                       "api_fuel": 8,
                        "api_bull": 15,
                        "api_slotnum": 2,
                        "api_ndock_time": 0,
@@ -505,11 +505,11 @@ svdata={
                        "api_id": 6,
                        "api_sortno": 35,
                        "api_ship_id": 6,
-                       "api_lv": 9,
+                       "api_lv": 10,
                        "api_exp": [
-                           4472,
-                           28,
-                           96
+                           4561,
+                           939,
+                           6
                        ],
                        "api_nowhp": 13,
                        "api_maxhp": 13,
@@ -531,16 +531,16 @@ svdata={
                        ],
                        "api_slot_ex": 0,
                        "api_kyouka": [
-                           7,
+                           8,
                            8,
                            3,
-                           4,
+                           5,
                            0,
                            0,
                            0
                        ],
                        "api_backs": 2,
-                       "api_fuel": 15,
+                       "api_fuel": 8,
                        "api_bull": 15,
                        "api_slotnum": 2,
                        "api_ndock_time": 0,
@@ -551,7 +551,7 @@ svdata={
                        "api_srate": 1,
                        "api_cond": 49,
                        "api_karyoku": [
-                           14,
+                           15,
                            29
                        ],
                        "api_raisou": [
@@ -563,11 +563,11 @@ svdata={
                            29
                        ],
                        "api_soukou": [
-                           9,
+                           10,
                            18
                        ],
                        "api_kaihi": [
-                           39,
+                           40,
                            69
                        ],
                        "api_taisen": [
@@ -762,9 +762,9 @@ svdata={
                        "api_ship_id": 1,
                        "api_lv": 8,
                        "api_exp": [
-                           3000,
-                           600,
-                           25
+                           3060,
+                           540,
+                           32
                        ],
                        "api_nowhp": 13,
                        "api_maxhp": 13,
@@ -795,7 +795,7 @@ svdata={
                            0
                        ],
                        "api_backs": 3,
-                       "api_fuel": 15,
+                       "api_fuel": 8,
                        "api_bull": 15,
                        "api_slotnum": 2,
                        "api_ndock_time": 0,
@@ -1100,11 +1100,11 @@ svdata={
                        "api_id": 17,
                        "api_sortno": 33,
                        "api_ship_id": 28,
-                       "api_lv": 7,
+                       "api_lv": 8,
                        "api_exp": [
-                           2750,
-                           50,
-                           92
+                           2810,
+                           790,
+                           1
                        ],
                        "api_nowhp": 13,
                        "api_maxhp": 13,
@@ -1126,7 +1126,7 @@ svdata={
                        ],
                        "api_slot_ex": 0,
                        "api_kyouka": [
-                           5,
+                           6,
                            4,
                            5,
                            2,
@@ -1135,7 +1135,7 @@ svdata={
                            0
                        ],
                        "api_backs": 2,
-                       "api_fuel": 15,
+                       "api_fuel": 8,
                        "api_bull": 15,
                        "api_slotnum": 2,
                        "api_ndock_time": 0,
@@ -1146,7 +1146,7 @@ svdata={
                        "api_srate": 1,
                        "api_cond": 49,
                        "api_karyoku": [
-                           12,
+                           13,
                            29
                        ],
                        "api_raisou": [
@@ -1170,7 +1170,7 @@ svdata={
                            39
                        ],
                        "api_sakuteki": [
-                           4,
+                           5,
                            17
                        ],
                        "api_lucky": [
@@ -2381,7 +2381,7 @@ svdata={
                            2564,
                            8
                        ],
-                       "api_nowhp": 16,
+                       "api_nowhp": 63,
                        "api_maxhp": 63,
                        "api_soku": 10,
                        "api_leng": 3,
@@ -2410,13 +2410,13 @@ svdata={
                            0
                        ],
                        "api_backs": 5,
-                       "api_fuel": 32,
-                       "api_bull": 44,
+                       "api_fuel": 80,
+                       "api_bull": 110,
                        "api_slotnum": 3,
-                       "api_ndock_time": 16245000,
+                       "api_ndock_time": 0,
                        "api_ndock_item": [
-                           120,
-                           225
+                           0,
+                           0
                        ],
                        "api_srate": 3,
                        "api_cond": 49,
@@ -3158,8 +3158,8 @@ svdata={
                            -1
                        ],
                        "api_onslot": [
-                           15,
-                           7,
+                           18,
+                           9,
                            3,
                            0,
                            0
@@ -3175,8 +3175,8 @@ svdata={
                            0
                        ],
                        "api_backs": 4,
-                       "api_fuel": 14,
-                       "api_bull": 14,
+                       "api_fuel": 35,
+                       "api_bull": 35,
                        "api_slotnum": 3,
                        "api_ndock_time": 7155000,
                        "api_ndock_item": [
@@ -3316,7 +3316,7 @@ svdata={
                            1570,
                            25
                        ],
-                       "api_nowhp": 27,
+                       "api_nowhp": 63,
                        "api_maxhp": 63,
                        "api_soku": 10,
                        "api_leng": 3,
@@ -3345,16 +3345,16 @@ svdata={
                            0
                        ],
                        "api_backs": 5,
-                       "api_fuel": 32,
-                       "api_bull": 44,
+                       "api_fuel": 80,
+                       "api_bull": 110,
                        "api_slotnum": 3,
-                       "api_ndock_time": 10020000,
+                       "api_ndock_time": 0,
                        "api_ndock_item": [
-                           92,
-                           172
+                           0,
+                           0
                        ],
                        "api_srate": 2,
-                       "api_cond": 46,
+                       "api_cond": 49,
                        "api_karyoku": [
                            91,
                            89
@@ -3838,10 +3838,10 @@ svdata={
                            -1
                        ],
                        "api_onslot": [
-                           15,
-                           16,
-                           21,
-                           9,
+                           18,
+                           18,
+                           27,
+                           10,
                            0
                        ],
                        "api_slot_ex": 0,
@@ -3855,8 +3855,8 @@ svdata={
                            0
                        ],
                        "api_backs": 6,
-                       "api_fuel": 24,
-                       "api_bull": 22,
+                       "api_fuel": 60,
+                       "api_bull": 55,
                        "api_slotnum": 4,
                        "api_ndock_time": 9150000,
                        "api_ndock_item": [
@@ -3911,7 +3911,7 @@ svdata={
                            550,
                            65
                        ],
-                       "api_nowhp": 48,
+                       "api_nowhp": 67,
                        "api_maxhp": 67,
                        "api_soku": 5,
                        "api_leng": 3,
@@ -3940,16 +3940,16 @@ svdata={
                            0
                        ],
                        "api_backs": 4,
-                       "api_fuel": 34,
-                       "api_bull": 48,
+                       "api_fuel": 85,
+                       "api_bull": 120,
                        "api_slotnum": 4,
-                       "api_ndock_time": 5730000,
+                       "api_ndock_time": 0,
                        "api_ndock_item": [
-                           51,
-                           96
+                           0,
+                           0
                        ],
                        "api_srate": 1,
-                       "api_cond": 46,
+                       "api_cond": 49,
                        "api_karyoku": [
                            99,
                            94
@@ -4263,9 +4263,9 @@ svdata={
                            -1
                        ],
                        "api_onslot": [
-                           11,
-                           15,
-                           14,
+                           12,
+                           18,
+                           18,
                            10,
                            0
                        ],
@@ -4280,8 +4280,8 @@ svdata={
                            0
                        ],
                        "api_backs": 4,
-                       "api_fuel": 16,
-                       "api_bull": 16,
+                       "api_fuel": 40,
+                       "api_bull": 40,
                        "api_slotnum": 4,
                        "api_ndock_time": 5610000,
                        "api_ndock_item": [
@@ -4289,7 +4289,7 @@ svdata={
                            57
                        ],
                        "api_srate": 2,
-                       "api_cond": 46,
+                       "api_cond": 49,
                        "api_karyoku": [
                            8,
                            19
@@ -6790,6 +6790,91 @@ svdata={
                        "api_locked": 0,
                        "api_locked_equip": 0,
                        "api_sally_area": 0
+                   },
+                   {
+                       "api_id": 152,
+                       "api_sortno": 33,
+                       "api_ship_id": 28,
+                       "api_lv": 1,
+                       "api_exp": [
+                           0,
+                           100,
+                           0
+                       ],
+                       "api_nowhp": 13,
+                       "api_maxhp": 13,
+                       "api_soku": 10,
+                       "api_leng": 1,
+                       "api_slot": [
+                           208,
+                           -1,
+                           -1,
+                           -1,
+                           -1
+                       ],
+                       "api_onslot": [
+                           0,
+                           0,
+                           0,
+                           0,
+                           0
+                       ],
+                       "api_slot_ex": 0,
+                       "api_kyouka": [
+                           0,
+                           0,
+                           0,
+                           0,
+                           0,
+                           0,
+                           0
+                       ],
+                       "api_backs": 2,
+                       "api_fuel": 15,
+                       "api_bull": 15,
+                       "api_slotnum": 2,
+                       "api_ndock_time": 0,
+                       "api_ndock_item": [
+                           0,
+                           0
+                       ],
+                       "api_srate": 0,
+                       "api_cond": 49,
+                       "api_karyoku": [
+                           7,
+                           29
+                       ],
+                       "api_raisou": [
+                           18,
+                           49
+                       ],
+                       "api_taiku": [
+                           8,
+                           29
+                       ],
+                       "api_soukou": [
+                           5,
+                           18
+                       ],
+                       "api_kaihi": [
+                           37,
+                           69
+                       ],
+                       "api_taisen": [
+                           16,
+                           39
+                       ],
+                       "api_sakuteki": [
+                           4,
+                           17
+                       ],
+                       "api_lucky": [
+                           10,
+                           49
+                       ],
+                       "api_locked": 0,
+                       "api_locked_equip": 0,
+                       "api_sally_area": 0
                    }
                ],
                "api_basic": {
@@ -6800,7 +6885,7 @@ svdata={
                    "api_starttime": 1520777550094,
                    "api_level": 18,
                    "api_rank": 4,
-                   "api_experience": 16548,
+                   "api_experience": 16608,
                    "api_fleetname": null,
                    "api_comment": "",
                    "api_comment_id": "",
@@ -6823,8 +6908,8 @@ svdata={
                    "api_fcoin": 0,
                    "api_st_win": 174,
                    "api_st_lose": 19,
-                   "api_ms_count": 37,
-                   "api_ms_success": 36,
+                   "api_ms_count": 40,
+                   "api_ms_success": 39,
                    "api_pt_win": 3,
                    "api_pt_lose": 2,
                    "api_pt_challenged": 0,
@@ -6841,33 +6926,33 @@ svdata={
                "api_log": [
                    {
                        "api_no": 0,
-                       "api_type": "11",
+                       "api_type": "3",
                        "api_state": "0",
-                       "api_message": "図鑑の内容が更新されました！"
+                       "api_message": "艦隊が、「遠征」から帰投しました。"
                    },
                    {
                        "api_no": 1,
-                       "api_type": "11",
+                       "api_type": "1",
                        "api_state": "0",
-                       "api_message": "図鑑の内容が更新されました！"
+                       "api_message": "「入渠」していた艦の修理が、完了しました。"
                    },
                    {
                        "api_no": 2,
-                       "api_type": "1",
+                       "api_type": "2",
                        "api_state": "0",
-                       "api_message": "「入渠」していた艦の修理が、完了しました。"
+                       "api_message": "「工廠」で、建造が完了した艦があります。"
                    },
                    {
                        "api_no": 3,
-                       "api_type": "1",
+                       "api_type": "3",
                        "api_state": "0",
-                       "api_message": "「入渠」していた艦の修理が、完了しました。"
+                       "api_message": "艦隊が、「遠征」から帰投しました。"
                    },
                    {
                        "api_no": 4,
-                       "api_type": "11",
+                       "api_type": "1",
                        "api_state": "0",
-                       "api_message": "図鑑の内容が更新されました！"
+                       "api_message": "「入渠」していた艦の修理が、完了しました。"
                    },
                    {
                        "api_no": 5,
