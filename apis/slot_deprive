@@ -1,0 +1,184 @@
+svdata={
+           "api_result": 1,
+           "api_result_msg": "成功",
+           "api_data": {
+               "api_ship_data": {
+                   "api_set_ship": {
+                       "api_id": 57,
+                       "api_sortno": 94,
+                       "api_ship_id": 74,
+                       "api_lv": 22,
+                       "api_exp": [
+                           25035,
+                           265,
+                           87
+                       ],
+                       "api_nowhp": 7,
+                       "api_maxhp": 32,
+                       "api_soku": 10,
+                       "api_leng": 1,
+                       "api_slot": [
+                           83,
+                           96,
+                           74,
+                           -1,
+                           -1
+                       ],
+                       "api_onslot": [
+                           18,
+                           9,
+                           3,
+                           0,
+                           0
+                       ],
+                       "api_slot_ex": 0,
+                       "api_kyouka": [
+                           10,
+                           0,
+                           14,
+                           8,
+                           0,
+                           0,
+                           0
+                       ],
+                       "api_backs": 4,
+                       "api_fuel": 35,
+                       "api_bull": 35,
+                       "api_slotnum": 3,
+                       "api_ndock_time": 7155000,
+                       "api_ndock_item": [
+                           28,
+                           52
+                       ],
+                       "api_srate": 2,
+                       "api_cond": 49,
+                       "api_karyoku": [
+                           10,
+                           19
+                       ],
+                       "api_raisou": [
+                           5,
+                           0
+                       ],
+                       "api_taiku": [
+                           33,
+                           29
+                       ],
+                       "api_soukou": [
+                           27,
+                           39
+                       ],
+                       "api_kaihi": [
+                           32,
+                           49
+                       ],
+                       "api_taisen": [
+                           7,
+                           0
+                       ],
+                       "api_sakuteki": [
+                           42,
+                           69
+                       ],
+                       "api_lucky": [
+                           10,
+                           49
+                       ],
+                       "api_locked": 0,
+                       "api_locked_equip": 0,
+                       "api_sally_area": 0
+                   },
+                   "api_unset_ship": {
+                       "api_id": 71,
+                       "api_sortno": 6,
+                       "api_ship_id": 83,
+                       "api_lv": 22,
+                       "api_exp": [
+                           24885,
+                           415,
+                           81
+                       ],
+                       "api_nowhp": 45,
+                       "api_maxhp": 69,
+                       "api_soku": 10,
+                       "api_leng": 1,
+                       "api_slot": [
+                           97,
+                           98,
+                           131,
+                           -1,
+                           -1
+                       ],
+                       "api_onslot": [
+                           18,
+                           18,
+                           27,
+                           10,
+                           0
+                       ],
+                       "api_slot_ex": 0,
+                       "api_kyouka": [
+                           17,
+                           0,
+                           19,
+                           14,
+                           0,
+                           0,
+                           0
+                       ],
+                       "api_backs": 6,
+                       "api_fuel": 60,
+                       "api_bull": 55,
+                       "api_slotnum": 4,
+                       "api_ndock_time": 9150000,
+                       "api_ndock_item": [
+                           46,
+                           86
+                       ],
+                       "api_srate": 2,
+                       "api_cond": 54,
+                       "api_karyoku": [
+                           17,
+                           39
+                       ],
+                       "api_raisou": [
+                           5,
+                           0
+                       ],
+                       "api_taiku": [
+                           53,
+                           69
+                       ],
+                       "api_soukou": [
+                           42,
+                           54
+                       ],
+                       "api_kaihi": [
+                           32,
+                           49
+                       ],
+                       "api_taisen": [
+                           7,
+                           0
+                       ],
+                       "api_sakuteki": [
+                           50,
+                           69
+                       ],
+                       "api_lucky": [
+                           12,
+                           49
+                       ],
+                       "api_locked": 0,
+                       "api_locked_equip": 0,
+                       "api_sally_area": 0
+                   }
+               },
+               "api_unset_list": {
+                   "api_type3No": 8,
+                   "api_slot_list": [
+                       75
+                   ]
+               }
+           }
+       }

@@ -2,6 +2,8 @@ package cn.cctech.kancolle.oyodo.entities
 
 import cn.cctech.kancolle.oyodo.apis.ApiMstShip
 import cn.cctech.kancolle.oyodo.apis.ApiShip
+import cn.cctech.kancolle.oyodo.apis.ApiShipData
+import cn.cctech.kancolle.oyodo.apis.Ship3ApiData
 
 class Ship {
 
@@ -17,6 +19,7 @@ class Ship {
     var condition: Int = 0 //士气
     var name: String = "" //舰名
     var items = mutableListOf<Int>() //装备
+    var itemEx = 0 //打孔装备
     var soku: Int = 0 //航速
     var carrys = mutableListOf<Int>()//搭载
     var scout: Int = 0 //索敌
@@ -32,7 +35,28 @@ class Ship {
         nowBullet = portShip.api_bull
         condition = portShip.api_cond
         items.addAll(portShip.api_slot)
-        items.add(portShip.api_slot_ex)
+        itemEx = portShip.api_slot_ex
+        soku = portShip.api_soku
+        carrys.addAll(portShip.api_onslot)
+        scout = portShip.api_sakuteki[0]
+        if (rawShip != null) {
+            maxFuel = rawShip.api_fuel_max
+            maxBullet = rawShip.api_bull_max
+            name = rawShip.api_name
+        }
+    }
+
+    constructor(portShip: ApiShipData, rawShip: ApiMstShip?) {
+        id = portShip.api_id
+        sortNum = portShip.api_sortno
+        level = portShip.api_lv
+        nowHp = portShip.api_nowhp
+        maxHp = portShip.api_maxhp
+        nowFuel = portShip.api_fuel
+        nowBullet = portShip.api_bull
+        condition = portShip.api_cond
+        items.addAll(portShip.api_slot)
+        itemEx = portShip.api_slot_ex
         soku = portShip.api_soku
         carrys.addAll(portShip.api_onslot)
         scout = portShip.api_sakuteki[0]
