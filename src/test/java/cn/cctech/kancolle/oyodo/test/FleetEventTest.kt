@@ -3,6 +3,7 @@ package cn.cctech.kancolle.oyodo.test
 import cn.cctech.kancolle.oyodo.Oyodo
 import cn.cctech.kancolle.oyodo.apis.*
 import cn.cctech.kancolle.oyodo.managers.Fleet
+import cn.cctech.kancolle.oyodo.managers.User
 import com.google.gson.reflect.TypeToken
 import org.junit.BeforeClass
 import org.junit.Test
@@ -51,9 +52,35 @@ class FleetEventTest {
         val slotDeprive = readApiFile<SlotDeprive>("slot_deprive", object : TypeToken<SlotDeprive>() {}.type)
         val setShipId = slotDeprive.api_data.api_ship_data.api_set_ship.api_id
         val unsetShipId = slotDeprive.api_data.api_ship_data.api_unset_ship.api_id
-        Fleet.shipMap[setShipId].let { Oyodo.attention().watch(it!!, { println("${it.name} : ${it.items}") }) }
-        Fleet.shipMap[unsetShipId].let { Oyodo.attention().watch(it!!, { println("${it.name} : ${it.items}") }) }
+        Fleet.shipMap[setShipId]?.let { Oyodo.attention().watch(it, { println("${it.name} : ${it.items}") }) }
+        Fleet.shipMap[unsetShipId]?.let { Oyodo.attention().watch(it, { println("${it.name} : ${it.items}") }) }
         slotDeprive.process()
+    }
+
+    @Test
+    fun createItem() {
+        Oyodo.attention().watch(User.slotCount, { println("Slot count : $it") })
+        val createItem = readApiFile<CreateItem>("createitem", object : TypeToken<CreateItem>() {}.type)
+        createItem.process()
+    }
+
+    @Test
+    fun getShip() {
+        Oyodo.attention().watch(User.shipCount, { println("Ship count : $it") })
+        Oyodo.attention().watch(User.slotCount, { println("Slot count : $it") })
+        val getShip = readApiFile<GetShip>("getship", object : TypeToken<GetShip>() {}.type)
+        getShip.process()
+    }
+
+    @Test
+    fun powerUp() {
+        Oyodo.attention().watch(User.shipCount, { println("Ship count : $it") })
+        Oyodo.attention().watch(User.slotCount, { println("Slot count : $it") })
+        val powerUp = readApiFileWithParams<PowerUp>("powerup", object : TypeToken<PowerUp>() {}.type)
+        Oyodo.attention().watch(Fleet.shipMap[powerUp.api_data.api_ship.api_id]!!, {
+            println("HP : ${it.maxHp}")
+        })
+        powerUp.process()
     }
 
 }

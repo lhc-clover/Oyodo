@@ -43,9 +43,9 @@ data class Port(
         api_data.api_ship.forEach {
             val rawShip = Raw.rawShipMap[it.api_ship_id]
             val ship = Ship(it, rawShip)
-            Fleet.shipMap[it.api_id] = BehaviorSubject.create()
-            Fleet.shipMap[it.api_id]?.onNext(ship)
+            Fleet.shipMap[it.api_id] = BehaviorSubject.createDefault(ship)
         }
+        User.shipCount.onNext(Fleet.shipMap.size)
     }
 
 }

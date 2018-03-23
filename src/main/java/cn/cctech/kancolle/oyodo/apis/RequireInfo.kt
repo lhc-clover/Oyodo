@@ -3,8 +3,8 @@ package cn.cctech.kancolle.oyodo.apis
 import cn.cctech.kancolle.oyodo.entities.Slot
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.User
 import io.reactivex.subjects.BehaviorSubject
-
 
 data class RequireInfo(
         val api_result: Int,
@@ -16,8 +16,8 @@ data class RequireInfo(
         api_data.api_slot_item.forEach {
             val rawSlot = Raw.rawSlotMap[it.api_slotitem_id]
             val slot = Slot(rawSlot, it)
-            Fleet.slotMap[it.api_id] = BehaviorSubject.create()
-            Fleet.slotMap[it.api_id]?.onNext(slot)
+            Fleet.slotMap[it.api_id] = BehaviorSubject.createDefault(slot)
+            User.slotCount.onNext(Fleet.slotMap.size)
         }
     }
 }
@@ -26,7 +26,7 @@ data class RequireInfoApiData(
         val api_basic: RequireInfoApiBasic,
         val api_slot_item: List<ApiSlotItem>,
         val api_unsetslot: Map<String, List<Int>>,
-        val api_kdock: List<ApiKdock>,
+        val api_kdock: List<KDockApiData>,
         val api_useitem: List<ApiUseitem>,
         val api_furniture: List<ApiFurniture>,
         val api_extra_supply: List<Int>
@@ -66,17 +66,4 @@ data class ApiSlotItem(
 data class RequireInfoApiBasic(
         val api_member_id: Int,
         val api_firstflag: Int
-)
-
-data class ApiKdock(
-        val api_id: Int,
-        val api_state: Int,
-        val api_created_ship_id: Int,
-        val api_complete_time: Long,
-        val api_complete_time_str: String,
-        val api_item1: Int,
-        val api_item2: Int,
-        val api_item3: Int,
-        val api_item4: Int,
-        val api_item5: Int
 )

@@ -67,6 +67,8 @@ class Oyodo {
             url.endsWith("api_req_kaisou/slot_exchange_index") -> object : TypeToken<SlotExchangeIndex>() {}.type
             url.endsWith("api_get_member/ship3") -> object : TypeToken<Ship3>() {}.type
             url.endsWith("api_req_kaisou/slot_deprive") -> object : TypeToken<SlotDeprive>() {}.type
+            url.endsWith("api_req_kousyou/createitem") -> object : TypeToken<CreateItem>() {}.type
+            url.endsWith("api_req_kousyou/getship") -> object : TypeToken<GetShip>() {}.type
             else -> null
         }
     }
