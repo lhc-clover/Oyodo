@@ -2,12 +2,14 @@ package cn.cctech.kancolle.oyodo.test
 
 import cn.cctech.kancolle.oyodo.Oyodo
 import cn.cctech.kancolle.oyodo.apis.Port
+import cn.cctech.kancolle.oyodo.apis.QuestList
 import cn.cctech.kancolle.oyodo.apis.RequireInfo
 import cn.cctech.kancolle.oyodo.apis.Start
 import cn.cctech.kancolle.oyodo.managers.*
 import com.google.gson.reflect.TypeToken
 import org.junit.BeforeClass
 import org.junit.Test
+
 
 class PortEventTest {
 
@@ -26,14 +28,14 @@ class PortEventTest {
 
     @Test
     fun material() {
-        Oyodo.attention().watch(Material.fuel, { System.out.println("fuel : $it") })
-        Oyodo.attention().watch(Material.ammo, { System.out.println("ammo : $it") })
-        Oyodo.attention().watch(Material.metal, { System.out.println("metal : $it") })
-        Oyodo.attention().watch(Material.bauxite, { System.out.println("bauxite : $it") })
-        Oyodo.attention().watch(Material.burner, { System.out.println("burner : $it") })
-        Oyodo.attention().watch(Material.bucket, { System.out.println("bucket : $it") })
-        Oyodo.attention().watch(Material.research, { System.out.println("research : $it") })
-        Oyodo.attention().watch(Material.improve, { System.out.println("improve : $it") })
+        Oyodo.attention().watch(Resource.fuel, { System.out.println("fuel : $it") })
+        Oyodo.attention().watch(Resource.ammo, { System.out.println("ammo : $it") })
+        Oyodo.attention().watch(Resource.metal, { System.out.println("metal : $it") })
+        Oyodo.attention().watch(Resource.bauxite, { System.out.println("bauxite : $it") })
+        Oyodo.attention().watch(Resource.burner, { System.out.println("burner : $it") })
+        Oyodo.attention().watch(Resource.bucket, { System.out.println("bucket : $it") })
+        Oyodo.attention().watch(Resource.research, { System.out.println("research : $it") })
+        Oyodo.attention().watch(Resource.improve, { System.out.println("improve : $it") })
     }
 
     @Test
@@ -70,6 +72,18 @@ class PortEventTest {
     fun raw() {
         System.out.println("Raw ship count : ${Raw.rawShipMap.size}")
         System.out.println("Raw slot count : ${Raw.rawSlotMap.size}")
+    }
+
+    @Test
+    fun questList() {
+        Oyodo.attention().watch(Mission.questMap, {
+            println("Size : ${it.size}")
+            it.filter { it.value.state >= 2 }.forEach { _, quest ->
+                println(quest.title)
+            }
+        })
+        val questList = readApiFileWithParams<QuestList>("questlist", object : TypeToken<QuestList>() {}.type)
+        questList.process()
     }
 
 }

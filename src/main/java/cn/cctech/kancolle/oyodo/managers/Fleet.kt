@@ -13,4 +13,11 @@ object Fleet : IManager() {
     val shipMap = HashMap<Int, BehaviorSubject<Ship>>()
     val slotMap = HashMap<Int, BehaviorSubject<Slot>>()
 
+    fun getShips(deckIndex: Int): MutableList<BehaviorSubject<Ship>> {
+        return try {
+            Fleet.deckShipIds[deckIndex].value.map { Fleet.shipMap[it]!! }.toMutableList()
+        } catch (e: Exception) {
+            mutableListOf()
+        }
+    }
 }

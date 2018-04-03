@@ -2,7 +2,7 @@ package cn.cctech.kancolle.oyodo.managers
 
 import io.reactivex.subjects.BehaviorSubject
 
-object Material : IManager() {
+object Resource : IManager() {
 
     var fuel = BehaviorSubject.create<Int>() //油
     var ammo = BehaviorSubject.create<Int>() //弹

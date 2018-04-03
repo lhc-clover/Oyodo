@@ -69,6 +69,21 @@ class Oyodo {
             url.endsWith("api_req_kaisou/slot_deprive") -> object : TypeToken<SlotDeprive>() {}.type
             url.endsWith("api_req_kousyou/createitem") -> object : TypeToken<CreateItem>() {}.type
             url.endsWith("api_req_kousyou/getship") -> object : TypeToken<GetShip>() {}.type
+            url.endsWith("api_req_kousyou/destroyship") -> object : TypeToken<DestroyShip>() {}.type
+            url.endsWith("api_req_kousyou/destroyitem2") -> object : TypeToken<DestroyItem>() {}.type
+            url.endsWith("api_get_member/material") -> object : TypeToken<Material>() {}.type
+            url.endsWith("api_req_nyukyo/speedchange") -> object : TypeToken<SpeedChange>() {}.type
+            url.endsWith("api_req_kaisou/powerup") -> object : TypeToken<PowerUp>() {}.type
+            url.endsWith("api_get_member/questlist") -> object : TypeToken<QuestList>() {}.type
+            url.endsWith("api_req_map/start") -> object : TypeToken<BattleStart>() {}.type
+            url.endsWith("api_req_map/next") -> object : TypeToken<BattleNext>() {}.type
+            url.endsWith("api_req_sortie/battle") -> object : TypeToken<BattleDaytime>() {}.type
+            url.endsWith("api_req_battle_midnight/battle") -> object : TypeToken<BattleNight>() {}.type
+            url.endsWith("api_req_battle_midnight/sp_midnight") -> object : TypeToken<BattleNightSp>() {}.type
+            url.endsWith("api_req_sortie/battleresult") -> object : TypeToken<BattleResult>() {}.type
+            url.endsWith("api_req_practice/battle") -> object : TypeToken<Practice>() {}.type
+            url.endsWith("api_req_practice/midnight_battle") -> object : TypeToken<PracticeNight>() {}.type
+            url.endsWith("api_req_practice/battle_result") -> object : TypeToken<PracticeResult>() {}.type
             else -> null
         }
     }

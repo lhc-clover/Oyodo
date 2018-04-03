@@ -3,7 +3,7 @@ package cn.cctech.kancolle.oyodo.test
 import cn.cctech.kancolle.oyodo.apis.*
 import cn.cctech.kancolle.oyodo.managers.Dock
 import cn.cctech.kancolle.oyodo.managers.Fleet
-import cn.cctech.kancolle.oyodo.managers.Material
+import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.Raw
 import com.google.gson.reflect.TypeToken
 import org.junit.BeforeClass
@@ -75,14 +75,14 @@ class DockEventTest {
 
     @Test
     fun charge() {
-        System.out.println("Before == fuel ${Material.fuel.value} ammo ${Material.ammo.value} metal ${Material.metal.value} bauxite ${Material.bauxite.value}")
+        System.out.println("Before == fuel ${Resource.fuel.value} ammo ${Resource.ammo.value} metal ${Resource.metal.value} bauxite ${Resource.bauxite.value}")
         val charge = readApiFile<Charge>("charge", object : TypeToken<Charge>() {}.type)
         charge.api_data.api_ship.forEach {
             val ship = Fleet.shipMap[it.api_id]?.value
             println("Before == ${ship?.name} @ ${ship?.nowFuel}/${ship?.maxFuel} -- ${ship?.nowBullet}/${ship?.maxBullet}")
         }
         charge.process()
-        System.out.println("After == fuel ${Material.fuel.value} ammo ${Material.ammo.value} metal ${Material.metal.value} bauxite ${Material.bauxite.value}")
+        System.out.println("After == fuel ${Resource.fuel.value} ammo ${Resource.ammo.value} metal ${Resource.metal.value} bauxite ${Resource.bauxite.value}")
         charge.api_data.api_ship.forEach {
             val ship = Fleet.shipMap[it.api_id]?.value
             println("After == ${ship?.name} @ ${ship?.nowFuel}/${ship?.maxFuel} -- ${ship?.nowBullet}/${ship?.maxBullet}")

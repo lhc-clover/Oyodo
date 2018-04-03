@@ -2,7 +2,7 @@ package cn.cctech.kancolle.oyodo.apis
 
 abstract class JsonBean {
 
-    var params = mutableMapOf<String, String>()
+    val params = mutableMapOf<String, String>()
 
     abstract fun process()
 

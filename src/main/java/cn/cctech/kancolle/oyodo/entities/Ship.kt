@@ -3,7 +3,6 @@ package cn.cctech.kancolle.oyodo.entities
 import cn.cctech.kancolle.oyodo.apis.ApiMstShip
 import cn.cctech.kancolle.oyodo.apis.ApiShip
 import cn.cctech.kancolle.oyodo.apis.ApiShipData
-import cn.cctech.kancolle.oyodo.apis.Ship3ApiData
 
 class Ship {
 
@@ -24,6 +23,8 @@ class Ship {
     var carrys = mutableListOf<Int>()//搭载
     var scout: Int = 0 //索敌
     var yomi: String = "" //舰假名或舰阶
+
+    var damage: MutableList<Int> = arrayListOf() //损伤
 
     constructor(portShip: ApiShip, rawShip: ApiMstShip?) {
         id = portShip.api_id
@@ -66,4 +67,17 @@ class Ship {
             name = rawShip.api_name
         }
     }
+
+    constructor(rawShip: ApiMstShip?) {
+        rawShip?.let {
+            id = it.api_id
+            sortNum = it.api_sortno
+            name = it.api_name
+            soku = it.api_soku
+            yomi = it.api_yomi
+        }
+    }
+
+    fun hp() = maxOf(nowHp - damage.sum(), 0)
+
 }

@@ -14,14 +14,14 @@ data class Port(
 
     override fun process() {
         // api_material
-        Material.fuel.onNext(api_data.api_material[0].api_value)
-        Material.ammo.onNext(api_data.api_material[1].api_value)
-        Material.metal.onNext(api_data.api_material[2].api_value)
-        Material.bauxite.onNext(api_data.api_material[3].api_value)
-        Material.burner.onNext(api_data.api_material[4].api_value)
-        Material.bucket.onNext(api_data.api_material[5].api_value)
-        Material.research.onNext(api_data.api_material[6].api_value)
-        Material.improve.onNext(api_data.api_material[7].api_value)
+        Resource.fuel.onNext(api_data.api_material[0].api_value)
+        Resource.ammo.onNext(api_data.api_material[1].api_value)
+        Resource.metal.onNext(api_data.api_material[2].api_value)
+        Resource.bauxite.onNext(api_data.api_material[3].api_value)
+        Resource.burner.onNext(api_data.api_material[4].api_value)
+        Resource.bucket.onNext(api_data.api_material[5].api_value)
+        Resource.research.onNext(api_data.api_material[6].api_value)
+        Resource.improve.onNext(api_data.api_material[7].api_value)
         // api_deck_port
         api_data.api_deck_port.forEachIndexed { index, it ->
             Fleet.deckShipIds[index].onNext(it.api_ship)

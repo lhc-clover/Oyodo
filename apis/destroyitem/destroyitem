@@ -1,0 +1,13 @@
+api%5Ftoken=270534809c73111a4359f1b9b58adc7e97538df5&api%5Fslotitem%5Fids=19%2C113%2C142%2C170&api%5Fverno=1
+svdata={
+           "api_result": 1,
+           "api_result_msg": "成功",
+           "api_data": {
+               "api_get_material": [
+                   0,
+                   4,
+                   4,
+                   0
+               ]
+           }
+       }

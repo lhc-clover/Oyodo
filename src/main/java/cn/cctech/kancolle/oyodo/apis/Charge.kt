@@ -1,7 +1,7 @@
 package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.managers.Fleet
-import cn.cctech.kancolle.oyodo.managers.Material
+import cn.cctech.kancolle.oyodo.managers.Resource
 
 data class Charge(
         val api_result: Int = 0,
@@ -10,13 +10,13 @@ data class Charge(
 ) : JsonBean() {
     override fun process() {
         val fuel = api_data.api_material.getOrNull(0)
-        fuel?.let { Material.fuel.onNext(it) }
+        fuel?.let { Resource.fuel.onNext(it) }
         val ammo = api_data.api_material.getOrNull(1)
-        ammo?.let { Material.ammo.onNext(it) }
+        ammo?.let { Resource.ammo.onNext(it) }
         val metal = api_data.api_material.getOrNull(2)
-        metal?.let { Material.metal.onNext(it) }
+        metal?.let { Resource.metal.onNext(it) }
         val bauxite = api_data.api_material.getOrNull(3)
-        bauxite?.let { Material.bauxite.onNext(it) }
+        bauxite?.let { Resource.bauxite.onNext(it) }
 
         api_data.api_ship.forEach { chargeApiShip ->
             val ship = Fleet.shipMap[chargeApiShip.api_id]

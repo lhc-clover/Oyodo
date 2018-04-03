@@ -3,7 +3,7 @@ package cn.cctech.kancolle.oyodo.test
 import cn.cctech.kancolle.oyodo.Oyodo
 import cn.cctech.kancolle.oyodo.Watcher
 import cn.cctech.kancolle.oyodo.apis.Port
-import cn.cctech.kancolle.oyodo.managers.Material
+import cn.cctech.kancolle.oyodo.managers.Resource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.junit.Before
@@ -21,16 +21,16 @@ class IManagerTest {
 
     @Test
     fun watch() {
-        Oyodo.attention().watch(Material.fuel, { System.out.println("fuel : $it") })
-        Material.fuel.onNext(1)
-        Oyodo.attention().watch(Material.fuel, object : Watcher<Int> {
+        Oyodo.attention().watch(Resource.fuel, { System.out.println("fuel : $it") })
+        Resource.fuel.onNext(1)
+        Oyodo.attention().watch(Resource.fuel, object : Watcher<Int> {
             override fun onChange(data: Int) {
                 System.out.println("fuel : $data")
             }
         })
-        Material.fuel.onNext(12450)
-        Material.fuel.onNext(666)
-        Material.fuel.onNext(233)
+        Resource.fuel.onNext(12450)
+        Resource.fuel.onNext(666)
+        Resource.fuel.onNext(233)
     }
 
 }

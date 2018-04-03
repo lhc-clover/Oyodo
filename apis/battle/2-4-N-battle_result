@@ -1,0 +1,83 @@
+api%5Ftoken=9f3348d58e47f11b5c90fcfad6df57d1b153a09c&api%5Fverno=1&api%5Fbtime=14020365
+svdata={
+           "api_result": 1,
+           "api_result_msg": "成功",
+           "api_data": {
+               "api_ship_id": [
+                   1528,
+                   1525,
+                   1511,
+                   1520,
+                   1516,
+                   1516
+               ],
+               "api_win_rank": "S",
+               "api_get_exp": 100,
+               "api_mvp": 3,
+               "api_member_lv": 18,
+               "api_member_exp": 16918,
+               "api_get_base_exp": 300,
+               "api_get_ship_exp": [
+                   -1,
+                   540,
+                   360,
+                   720,
+                   360,
+                   360,
+                   360
+               ],
+               "api_get_exp_lvup": [
+                   [
+                       26223,
+                       27600
+                   ],
+                   [
+                       11513,
+                       12000
+                   ],
+                   [
+                       13770,
+                       15300
+                   ],
+                   [
+                       26325,
+                       27600
+                   ],
+                   [
+                       38756,
+                       40600
+                   ],
+                   [
+                       22250,
+                       23100
+                   ]
+               ],
+               "api_dests": 6,
+               "api_destsf": 1,
+               "api_quest_name": "沖ノ島海域",
+               "api_quest_level": 6,
+               "api_enemy_info": {
+                   "api_level": "",
+                   "api_rank": "",
+                   "api_deck_name": "敵空母機動部隊"
+               },
+               "api_first_clear": 0,
+               "api_mapcell_incentive": 0,
+               "api_get_flag": [
+                   0,
+                   1,
+                   0
+               ],
+               "api_get_ship": {
+                   "api_ship_id": 17,
+                   "api_ship_type": "駆逐艦",
+                   "api_ship_name": "陽炎",
+                   "api_ship_getmes": "やっと会えた！　陽炎よ。<br>よろしくねっ！"
+               },
+               "api_get_eventflag": 0,
+               "api_get_exmap_rate": 0,
+               "api_get_exmap_useitem_id": 0,
+               "api_escape_flag": 0,
+               "api_escape": null
+           }
+       }
