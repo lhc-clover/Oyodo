@@ -17,12 +17,16 @@ data class QuestList(
         } catch (e: Exception) {
             -1
         }
-        if (tabId == 9 || Mission.isSameDay()) {
+        if (tabId == 9 || !Mission.isSameDay()) {
             clearQuestState()
         }
         api_data.api_list.forEach {
-            val quest = Quest(it)
-            map[quest.id] = quest
+            try {
+                val quest = Quest(it)
+                map[quest.id] = quest
+            } catch (e: Exception) {
+                println("$it is not a quest object")
+            }
         }
         Mission.questMap.onNext(map)
     }

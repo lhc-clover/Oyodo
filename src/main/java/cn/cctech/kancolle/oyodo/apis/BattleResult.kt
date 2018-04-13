@@ -11,7 +11,7 @@ data class BattleResult(
         api_data?.api_get_ship?.let {
             Battle.get = it.api_ship_name
         }
-        api_data?.api_win_rank?.let { Battle.rank = it }
+//        api_data?.api_win_rank?.let { Battle.rank = it }
         Battle.phaseShift(Battle.Phase.BattleResult)
     }
 }

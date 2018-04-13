@@ -11,10 +11,6 @@ data class Start(
         api_data.api_mst_ship.forEach { Raw.rawShipMap[it.api_id] = it }
         api_data.api_mst_slotitem.forEach { Raw.rawSlotMap[it.api_id] = it }
     }
-
-    fun isInit(): Boolean {
-        return Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
-    }
 }
 
 data class StartApiData(

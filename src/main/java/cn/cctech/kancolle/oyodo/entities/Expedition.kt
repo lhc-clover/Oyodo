@@ -23,7 +23,7 @@ class Expedition {
     constructor(entity: DeckApiData?) {
         try {
             fleetIndex = entity!!.api_id
-            missionId = entity.api_mission[1]
+            missionId = entity.api_mission!![1]
             val time = java.lang.Long.parseLong(entity.api_mission[2])
             returnTime = if (time == 0L) -1 else time
         } catch (e: Exception) {

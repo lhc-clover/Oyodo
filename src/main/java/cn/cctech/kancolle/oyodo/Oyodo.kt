@@ -1,9 +1,11 @@
 package cn.cctech.kancolle.oyodo
 
 import cn.cctech.kancolle.oyodo.apis.*
+import cn.cctech.kancolle.oyodo.managers.Raw
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.Subject
 import java.io.FileReader
 import java.io.StringReader
@@ -11,7 +13,7 @@ import java.lang.reflect.Type
 
 class Oyodo {
 
-    private var isStartInit = false
+    private var startFilePath: String? = null
 
     companion object {
 
@@ -33,17 +35,25 @@ class Oyodo {
         }
     }
 
-    fun init(startFilePath: String) {
-        val jsonReader = FileReader(startFilePath)
-        jsonReader.skip(7) // skip 'svdata='
-        val start = Gson().fromJson<Start>(jsonReader, object : TypeToken<Start>() {}.type)
-        start.process()
-        isStartInit = start.isInit()
+    fun init(path: String) {
+        startFilePath = path
+    }
+
+    private fun checkStart(): Boolean {
+        var isInit = Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
+        if (!isInit) {
+            val jsonReader = FileReader(startFilePath)
+            jsonReader.skip(7) // skip 'svdata='
+            val start = Gson().fromJson<Start>(jsonReader, object : TypeToken<Start>() {}.type)
+            start.process()
+            isInit = Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
+        }
+        return isInit
     }
 
     @Throws(Exception::class)
     fun api(url: String, requestBody: ByteArray, responseBody: ByteArray) {
-        if (!isStartInit) throw Exception("Please call 'init' first.")
+        if (!checkStart()) throw Exception("Start file not set yet. Please call 'init' first.")
         else {
             getTypeByUrl(url)?.let {
                 val reader = JsonReader(StringReader(parseContent(responseBody)))
@@ -74,6 +84,7 @@ class Oyodo {
             url.endsWith("api_get_member/material") -> object : TypeToken<Material>() {}.type
             url.endsWith("api_req_nyukyo/speedchange") -> object : TypeToken<SpeedChange>() {}.type
             url.endsWith("api_req_kaisou/powerup") -> object : TypeToken<PowerUp>() {}.type
+            url.endsWith("api_req_kousyou/createship_speedchange") -> object : TypeToken<CreateShipSpeedChange>() {}.type
             url.endsWith("api_get_member/questlist") -> object : TypeToken<QuestList>() {}.type
             url.endsWith("api_req_map/start") -> object : TypeToken<BattleStart>() {}.type
             url.endsWith("api_req_map/next") -> object : TypeToken<BattleNext>() {}.type
@@ -95,12 +106,12 @@ class Oyodo {
         return result
     }
 
-    fun <T> watch(data: Subject<T>, watcher: (T) -> Unit) {
-        data.subscribe { watcher(it) }
+    fun <T> watch(data: Subject<T>, watcher: (T) -> Unit): Disposable? {
+        return data.subscribe { watcher(it) }
     }
 
-    fun <T> watch(data: Subject<T>, watcher: Watcher<T>) {
-        data.subscribe { watcher.onChange(it) }
+    fun <T> watch(data: Subject<T>, watcher: Watcher<T>): Disposable? {
+        return data.subscribe { watcher.onChange(it) }
     }
 
 }

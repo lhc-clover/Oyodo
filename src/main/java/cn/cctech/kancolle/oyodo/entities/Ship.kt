@@ -3,6 +3,8 @@ package cn.cctech.kancolle.oyodo.entities
 import cn.cctech.kancolle.oyodo.apis.ApiMstShip
 import cn.cctech.kancolle.oyodo.apis.ApiShip
 import cn.cctech.kancolle.oyodo.apis.ApiShipData
+import cn.cctech.kancolle.oyodo.managers.Fleet
+import cn.cctech.kancolle.oyodo.utils.*
 
 class Ship {
 
@@ -35,7 +37,7 @@ class Ship {
         nowFuel = portShip.api_fuel
         nowBullet = portShip.api_bull
         condition = portShip.api_cond
-        items.addAll(portShip.api_slot)
+        items.addAll((0 until portShip.api_slotnum).map { portShip.api_slot[it] })
         itemEx = portShip.api_slot_ex
         soku = portShip.api_soku
         carrys.addAll(portShip.api_onslot)
@@ -56,7 +58,7 @@ class Ship {
         nowFuel = portShip.api_fuel
         nowBullet = portShip.api_bull
         condition = portShip.api_cond
-        items.addAll(portShip.api_slot)
+        items.addAll((0 until portShip.api_slotnum).map { portShip.api_slot[it] })
         itemEx = portShip.api_slot_ex
         soku = portShip.api_soku
         carrys.addAll(portShip.api_onslot)
@@ -79,5 +81,31 @@ class Ship {
     }
 
     fun hp() = maxOf(nowHp - damage.sum(), 0)
+
+    fun getAirPower(): Pair<Int, Int> {
+        val totalAAC = intArrayOf(0, 0)
+        for ((index, equipId) in items.withIndex()) {
+            val carry = try {
+                carrys[index]
+            } catch (e: Exception) {
+                0
+            }
+            Fleet.slotMap[equipId]?.let {
+                val baseAAC = calcBasicAAC(it.type, it.calcLevelAAC(), carry)
+                val masteryAAC = it.calcMasteryAAC(0)
+                totalAAC[0] += Math.floor(baseAAC + masteryAAC[0]).toInt()
+                totalAAC[1] += Math.floor(baseAAC + masteryAAC[1]).toInt()
+            }
+        }
+        return Pair(totalAAC[0], totalAAC[1])
+    }
+
+    private fun calcBasicAAC(type: Int, aac: Double, carry: Int): Double {
+        return when (type) {
+            FIGHTER, BOMBER, TORPEDO_BOMBER, SEA_BOMBER, SEA_FIGHTER, LBA_AIRCRAFT, ITCP_FIGHTER,
+            JET_FIGHTER, JET_BOMBER, JET_TORPEDO_BOMBER -> Math.sqrt(carry.toDouble()) * aac
+            else -> 0.0
+        }
+    }
 
 }

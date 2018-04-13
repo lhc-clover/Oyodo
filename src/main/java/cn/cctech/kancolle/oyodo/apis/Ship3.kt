@@ -3,6 +3,7 @@ package cn.cctech.kancolle.oyodo.apis
 import cn.cctech.kancolle.oyodo.entities.Ship
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.Transform
 
 data class Ship3(
         val api_result: Int = 0,
@@ -13,8 +14,9 @@ data class Ship3(
         api_data.api_ship_data.forEach {
             val rawShip = Raw.rawShipMap[it.api_ship_id]
             val ship = Ship(it, rawShip)
-            Fleet.shipMap[it.api_id]?.onNext(ship)
+            Fleet.shipMap[it.api_id] = ship
         }
+        Fleet.shipWatcher.onNext(Transform.Add(api_data.api_ship_data.map { it.api_id }))
         api_data.api_deck_data.forEach {
             val fleetIds = it.api_ship
             Fleet.deckShipIds[it.api_id - 1].onNext(fleetIds)

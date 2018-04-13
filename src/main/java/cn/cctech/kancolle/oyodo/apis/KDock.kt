@@ -6,10 +6,10 @@ import cn.cctech.kancolle.oyodo.managers.Dock
 data class KDock(
         val api_result: Int = 0,
         val api_result_msg: String = "",
-        val api_data: List<KDockApiData> = listOf()
+        val api_data: List<KDockApiData>? = listOf()
 ) : JsonBean() {
     override fun process() {
-        api_data.forEachIndexed { index, it -> Dock.buildList[index].onNext(Build(it)) }
+        api_data?.forEachIndexed { index, it -> Dock.buildList[index].onNext(Build(it)) }
     }
 }
 

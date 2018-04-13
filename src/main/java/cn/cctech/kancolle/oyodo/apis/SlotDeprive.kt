@@ -3,6 +3,7 @@ package cn.cctech.kancolle.oyodo.apis
 import cn.cctech.kancolle.oyodo.entities.Ship
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.Transform
 
 data class SlotDeprive(
         val api_result: Int = 0,
@@ -12,11 +13,13 @@ data class SlotDeprive(
     override fun process() {
         val setShip = api_data.api_ship_data.api_set_ship
         val setEntity = Ship(setShip, Raw.rawShipMap[setShip.api_ship_id])
-        Fleet.shipMap[setShip.api_id]?.onNext(setEntity)
+        Fleet.shipMap[setShip.api_id] = setEntity
 
         val unsetShip = api_data.api_ship_data.api_unset_ship
         val unsetEntity = Ship(unsetShip, Raw.rawShipMap[unsetShip.api_ship_id])
-        Fleet.shipMap[unsetShip.api_id]?.onNext(unsetEntity)
+        Fleet.shipMap[unsetShip.api_id] = unsetEntity
+
+        Fleet.shipWatcher.onNext(Transform.Change(listOf(setShip.api_id, unsetShip.api_id)))
     }
 }
 

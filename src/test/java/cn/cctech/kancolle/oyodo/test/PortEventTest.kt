@@ -62,7 +62,7 @@ class PortEventTest {
         Dock.expeditionList.forEach { Oyodo.attention().watch(it, { System.out.println("Expedition : ${it.fleetIndex} to ${it.missionId}") }) }
         Dock.repairList.forEach {
             Oyodo.attention().watch(it, {
-                val ship = Fleet.shipMap[it.shipId]?.value
+                val ship = Fleet.shipMap[it.shipId]
                 System.out.println("Repair : ${ship?.name}")
             })
         }

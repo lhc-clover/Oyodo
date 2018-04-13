@@ -3,33 +3,34 @@ package cn.cctech.kancolle.oyodo.apis
 import cn.cctech.kancolle.oyodo.entities.Slot
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.Transform
 import cn.cctech.kancolle.oyodo.managers.User
-import io.reactivex.subjects.BehaviorSubject
 
 data class RequireInfo(
-        val api_result: Int,
-        val api_result_msg: String,
-        val api_data: RequireInfoApiData
+        val api_result: Int = 0,
+        val api_result_msg: String = "",
+        val api_data: RequireInfoApiData? = RequireInfoApiData()
 ) : JsonBean() {
     override fun process() {
         Fleet.slotMap.clear()
-        api_data.api_slot_item.forEach {
+        api_data?.api_slot_item?.forEach {
             val rawSlot = Raw.rawSlotMap[it.api_slotitem_id]
             val slot = Slot(rawSlot, it)
-            Fleet.slotMap[it.api_id] = BehaviorSubject.createDefault(slot)
-            User.slotCount.onNext(Fleet.slotMap.size)
+            Fleet.slotMap[it.api_id] = slot
         }
+        Fleet.slotWatcher.onNext(Transform.All())
+        User.slotCount.onNext(Fleet.slotMap.size)
     }
 }
 
 data class RequireInfoApiData(
-        val api_basic: RequireInfoApiBasic,
-        val api_slot_item: List<ApiSlotItem>,
-        val api_unsetslot: Map<String, List<Int>>,
-        val api_kdock: List<KDockApiData>,
-        val api_useitem: List<ApiUseitem>,
-        val api_furniture: List<ApiFurniture>,
-        val api_extra_supply: List<Int>
+        val api_basic: RequireInfoApiBasic? = RequireInfoApiBasic(),
+        val api_slot_item: List<ApiSlotItem>? = listOf(),
+        val api_unsetslot: Map<String, List<Int>>? = mapOf(),
+        val api_kdock: List<KDockApiData>? = listOf(),
+        val api_useitem: List<ApiUseitem>? = listOf(),
+        val api_furniture: List<ApiFurniture>? = listOf(),
+        val api_extra_supply: List<Int>? = listOf()
 )
 
 //data class ApiUnsetslot(
@@ -45,25 +46,25 @@ data class RequireInfoApiData(
 
 data class ApiFurniture(
         val api_id: Int,
-        val api_furniture_type: Int,
-        val api_furniture_no: Int,
-        val api_furniture_id: Int
+        val api_furniture_type: Int = 0,
+        val api_furniture_no: Int = 0,
+        val api_furniture_id: Int = 0
 )
 
 data class ApiUseitem(
-        val api_id: Int,
-        val api_count: Int
+        val api_id: Int = 0,
+        val api_count: Int = 0
 )
 
 data class ApiSlotItem(
-        val api_id: Int,
-        val api_slotitem_id: Int,
-        val api_locked: Int,
-        val api_level: Int,
-        val api_alv: Int
+        val api_id: Int = 0,
+        val api_slotitem_id: Int = 0,
+        val api_locked: Int = 0,
+        val api_level: Int = 0,
+        val api_alv: Int = 0
 )
 
 data class RequireInfoApiBasic(
-        val api_member_id: Int,
-        val api_firstflag: Int
+        val api_member_id: Int = 0,
+        val api_firstflag: Int = 0
 )

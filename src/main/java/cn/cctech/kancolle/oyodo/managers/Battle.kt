@@ -28,7 +28,8 @@ object Battle : IManager() {
     var nodeType: Int = -1
     var get: String = ""
 
-    var friendList: MutableList<BehaviorSubject<Ship>> = mutableListOf()
+    var friendIndex = -1
+    //    var friendList: MutableList<BehaviorSubject<Ship>> = mutableListOf()
     var friendFormation: Int = -1
     var enemyList: MutableList<Ship> = mutableListOf()
     var enemyFormation: Int = -1
@@ -37,6 +38,7 @@ object Battle : IManager() {
     fun calcTargetDamage(targetList: List<Any>?, damageList: List<Any>?, flagList: List<Int>?) {
         if (targetList == null || damageList == null || flagList == null) return
         try {
+            val shipIds = mutableListOf<Int>()
             for ((i, target) in targetList.withIndex()) {
                 val flag = flagList[i]
                 val tArr = target as ArrayList<Int>
@@ -49,10 +51,10 @@ object Battle : IManager() {
                                 ship.damage.add(dArr[j].toInt())
                             }
                             1 -> {
+                                val friendList = getShips(friendIndex)
                                 val ship = friendList[t]
-                                val entity = ship.value
-                                entity.damage.add(dArr[j].toInt())
-                                ship.onNext(entity)
+                                ship.damage.add(dArr[j].toInt())
+                                shipIds.add(ship.id)
                             }
                             else -> println("Unexpected flag $flag")
                         }
@@ -61,6 +63,7 @@ object Battle : IManager() {
                     }
                 }
             }
+            Fleet.shipWatcher.onNext(Transform.Change(shipIds))
         } catch (e: Exception) {
             println("Can't set hougeki damage\n" + e.printStackTrace())
         }
@@ -68,17 +71,19 @@ object Battle : IManager() {
 
     fun calcFriendOrdinalDamage(damageList: List<Double>?) {
         if (damageList == null) return
+        val shipIds = mutableListOf<Int>()
         for ((i, value) in damageList.withIndex()) {
             try {
+                val friendList = getShips(friendIndex)
                 val ship = friendList[i]
-                val entity = ship.value
                 val damage = value.toInt()
-                if (damage > 0) entity.damage.add(damage)
-                ship.onNext(entity)
+                if (damage > 0) ship.damage.add(damage)
+                shipIds.add(ship.id)
             } catch (e: Exception) {
                 println("Can't set friend damage for ship $i\n" + e.printStackTrace())
             }
         }
+        Fleet.shipWatcher.onNext(Transform.Change(shipIds))
     }
 
     fun calcEnemyOrdinalDamage(damageList: List<Double>?) {
@@ -99,24 +104,24 @@ object Battle : IManager() {
             ship.nowHp -= ship.damage.sum()
             ship.damage.clear()
         }
-        friendList.forEach { setDamage(it.value) }
+
+        val friendList = getShips(friendIndex)
+        friendList.forEach { setDamage(it) }
         enemyList.forEach { setDamage(it) }
     }
 
     fun calcRank() {
+        val friendList = getShips(friendIndex)
         val friendCount = friendList.size
-        val shipList = friendList.map { it.value }
-        val friendSunkCount = shipList.count {
-            it?.hp() ?: Int.MAX_VALUE <= 0
-        }
-        val friendNowSum = shipList.sumBy { it?.nowHp ?: 0 }
-        val friendAfterSum = shipList.sumBy { it?.hp() ?: 0 }
+        val friendSunkCount = friendList.count { it.hp() <= 0 }
+        val friendNowSum = friendList.sumBy { it.nowHp }
+//        val friendAfterSum = shipList.sumBy { it?.hp() ?: 0 }
 //            friendFlagshipCritical = shipList[0]?.getHpFixed()?.times(4) ?: 0 <= shipList[0]?.maxHp ?: 0
-        val friendDamageSum = shipList.sumBy { it?.damage?.sum() ?: 0 }
+        val friendDamageSum = friendList.sumBy { it.damage.sum() }
         val enemyCount = enemyList.size
         val enemySunkCount = enemyList.count { it.hp() <= 0 }
         val enemyNowSum = enemyList.sumBy { it.nowHp }
-        val enemyAfterSum = enemyList.sumBy { it.hp() }
+//        val enemyAfterSum = enemyList.sumBy { it.hp() }
         val enemyFlagShipSunk = enemyList[0].hp() <= 0
         val enemyDamageSum = enemyList.sumBy { it.damage.sum() }
 
@@ -151,6 +156,21 @@ object Battle : IManager() {
 
     fun phaseShift(value: Phase) {
         phase.onNext(value)
+    }
+
+    fun clear() {
+        friendIndex = -1
+        friendFormation = -1
+        enemyList.clear()
+        enemyFormation = -1
+        area = -1
+        map = -1
+        heading = -1
+        airCommand = -1
+        rank = ""
+        route = -1
+        nodeType = -1
+        get = ""
     }
 
 }

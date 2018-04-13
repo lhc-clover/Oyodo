@@ -3,8 +3,8 @@ package cn.cctech.kancolle.oyodo.test
 import cn.cctech.kancolle.oyodo.apis.*
 import cn.cctech.kancolle.oyodo.managers.Dock
 import cn.cctech.kancolle.oyodo.managers.Fleet
-import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.Resource
 import com.google.gson.reflect.TypeToken
 import org.junit.BeforeClass
 import org.junit.Test
@@ -30,7 +30,7 @@ class DockEventTest {
         val ndock = readApiFile<NDock>("ndock", object : TypeToken<NDock>() {}.type)
         ndock.process()
         Dock.repairList.forEach {
-            val ship = Fleet.shipMap[it.value.shipId]?.value
+            val ship = Fleet.shipMap[it.value.shipId]
             val time = Date(it.value.completeTime)
             ship?.let { System.out.println("${it.name} will finish repair at $time") }
         }
@@ -77,14 +77,14 @@ class DockEventTest {
     fun charge() {
         System.out.println("Before == fuel ${Resource.fuel.value} ammo ${Resource.ammo.value} metal ${Resource.metal.value} bauxite ${Resource.bauxite.value}")
         val charge = readApiFile<Charge>("charge", object : TypeToken<Charge>() {}.type)
-        charge.api_data.api_ship.forEach {
-            val ship = Fleet.shipMap[it.api_id]?.value
+        charge.api_data?.api_ship?.forEach {
+            val ship = Fleet.shipMap[it.api_id]
             println("Before == ${ship?.name} @ ${ship?.nowFuel}/${ship?.maxFuel} -- ${ship?.nowBullet}/${ship?.maxBullet}")
         }
         charge.process()
         System.out.println("After == fuel ${Resource.fuel.value} ammo ${Resource.ammo.value} metal ${Resource.metal.value} bauxite ${Resource.bauxite.value}")
-        charge.api_data.api_ship.forEach {
-            val ship = Fleet.shipMap[it.api_id]?.value
+        charge.api_data?.api_ship?.forEach {
+            val ship = Fleet.shipMap[it.api_id]
             println("After == ${ship?.name} @ ${ship?.nowFuel}/${ship?.maxFuel} -- ${ship?.nowBullet}/${ship?.maxBullet}")
         }
     }

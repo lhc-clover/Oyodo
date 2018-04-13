@@ -4,7 +4,6 @@ import cn.cctech.kancolle.oyodo.entities.Expedition
 import cn.cctech.kancolle.oyodo.entities.Repair
 import cn.cctech.kancolle.oyodo.entities.Ship
 import cn.cctech.kancolle.oyodo.managers.*
-import io.reactivex.subjects.BehaviorSubject
 
 data class Port(
         val api_result: Int = 0,
@@ -22,14 +21,6 @@ data class Port(
         Resource.bucket.onNext(api_data.api_material[5].api_value)
         Resource.research.onNext(api_data.api_material[6].api_value)
         Resource.improve.onNext(api_data.api_material[7].api_value)
-        // api_deck_port
-        api_data.api_deck_port.forEachIndexed { index, it ->
-            Fleet.deckShipIds[index].onNext(it.api_ship)
-            Dock.expeditionList[index].onNext(Expedition(it))
-            Fleet.deckNames[index].onNext(it.api_name)
-        }
-        // api_ndock
-        api_data.api_ndock.forEachIndexed { index, it -> Dock.repairList[index].onNext(Repair(it)) }
         // api_basic
         User.nickname.onNext(api_data.api_basic.api_nickname)
         User.level.onNext(api_data.api_basic.api_level)
@@ -43,9 +34,21 @@ data class Port(
         api_data.api_ship.forEach {
             val rawShip = Raw.rawShipMap[it.api_ship_id]
             val ship = Ship(it, rawShip)
-            Fleet.shipMap[it.api_id] = BehaviorSubject.createDefault(ship)
+            Fleet.shipMap[it.api_id] = ship
         }
+        Fleet.shipWatcher.onNext(Transform.All())
         User.shipCount.onNext(Fleet.shipMap.size)
+        // api_deck_port
+        api_data.api_deck_port.forEachIndexed { index, it ->
+            Fleet.deckShipIds[index].onNext(it.api_ship)
+            Dock.expeditionList[index].onNext(Expedition(it))
+            Fleet.deckNames[index].onNext(it.api_name)
+        }
+        // api_ndock
+        api_data.api_ndock.forEachIndexed { index, it -> Dock.repairList[index].onNext(Repair(it)) }
+
+        Battle.clear()
+        Battle.phaseShift(Battle.Phase.Idle)
     }
 
 }

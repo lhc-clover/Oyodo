@@ -2,6 +2,7 @@ package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
+import cn.cctech.kancolle.oyodo.managers.Transform
 import kotlin.math.max
 
 data class NyukyoStart(
@@ -18,10 +19,10 @@ data class NyukyoStart(
                 null
             }
             ship?.let {
-                val entity = it.value
-                entity.nowHp = entity.maxHp
-                entity.condition = max(40, entity.condition)
-                it.onNext(entity)
+                it.nowHp = it.maxHp
+                it.condition = max(40, it.condition)
+                Fleet.shipWatcher.onNext(Transform.Change(listOf(it.id)))
+
             }
             Resource.bucket.onNext(Resource.bucket.value - 1)
         }

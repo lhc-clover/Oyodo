@@ -2,14 +2,21 @@ package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.entities.Repair
 import cn.cctech.kancolle.oyodo.managers.Dock
+import cn.cctech.kancolle.oyodo.managers.Fleet
+import cn.cctech.kancolle.oyodo.managers.Transform
 
 data class NDock(
         val api_result: Int = 0,
         val api_result_msg: String = "",
-        val api_data: List<NDockApiData> = listOf()
+        val api_data: List<NDockApiData>? = listOf()
 ) : JsonBean() {
     override fun process() {
-        api_data.forEachIndexed { index, it -> Dock.repairList[index].onNext(Repair(it)) }
+        val shipIds = mutableListOf<Int>()
+        api_data?.forEachIndexed { index, it ->
+            Dock.repairList[index].onNext(Repair(it))
+            shipIds.add(it.api_ship_id)
+        }
+        Fleet.shipWatcher.onNext(Transform.Change(shipIds))
     }
 }
 

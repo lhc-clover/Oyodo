@@ -3,6 +3,7 @@ package cn.cctech.kancolle.oyodo.test
 import cn.cctech.kancolle.oyodo.Oyodo
 import cn.cctech.kancolle.oyodo.apis.*
 import cn.cctech.kancolle.oyodo.managers.Battle
+import cn.cctech.kancolle.oyodo.managers.getShips
 import com.google.gson.reflect.TypeToken
 import org.junit.BeforeClass
 import org.junit.Test
@@ -29,7 +30,7 @@ class BattleTest24 {
                 Battle.Phase.Idle -> println("idle")
                 Battle.Phase.Start -> println("${Battle.area}-${Battle.map}-${Battle.route}")
                 Battle.Phase.BattleDaytime -> {
-                    Battle.friendList.forEach { println("${it.value.name} : ${it.value.hp()}/${it.value.maxHp}(-${it.value.damage.sum()}) ${it.value.damage}") }
+                    getShips(Battle.friendIndex).forEach { println("${it.name} : ${it.hp()}/${it.maxHp}(-${it.damage.sum()}) ${it.damage}") }
                     Battle.enemyList.forEach { println("${it.name} : ${it.hp()}/${it.maxHp}(-${it.damage.sum()}) ${it.damage}") }
                 }
                 else -> println("unknown")

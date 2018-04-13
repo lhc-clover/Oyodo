@@ -3,6 +3,7 @@ package cn.cctech.kancolle.oyodo.apis
 import cn.cctech.kancolle.oyodo.managers.Dock
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
+import cn.cctech.kancolle.oyodo.managers.Transform
 import kotlin.math.max
 
 data class SpeedChange(
@@ -19,10 +20,11 @@ data class SpeedChange(
         repairDock?.value?.let {
             // ship recovery
             val ship = Fleet.shipMap[it.shipId]
-            ship?.value?.let {
+            ship?.let {
                 it.nowHp = it.maxHp
                 it.condition = max(40, it.condition)
-                ship.onNext(it)
+                Fleet.shipWatcher.onNext(Transform.Change(listOf(it.id)))
+
             }
             // clear ndock
             it.state = 1

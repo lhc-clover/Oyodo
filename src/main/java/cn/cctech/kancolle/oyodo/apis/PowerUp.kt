@@ -3,6 +3,7 @@ package cn.cctech.kancolle.oyodo.apis
 import cn.cctech.kancolle.oyodo.entities.Ship
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.Transform
 import cn.cctech.kancolle.oyodo.managers.User
 
 data class PowerUp(
@@ -13,21 +14,29 @@ data class PowerUp(
     override fun process() {
         if (api_data.api_powerup_flag == 1) {
             params["api_id_items"]?.let {
-                it.split("%2C").forEach {
+                val shipIds = it.split("%2C")
+                val slotIds = mutableListOf<Int>()
+                shipIds.forEach {
                     val ship = try {
-                        Fleet.shipMap[it.toInt()]!!.value
+                        Fleet.shipMap[it.toInt()]!!
                     } catch (e: Exception) {
                         null
                     }
                     ship?.let {
-                        it.items.forEach { itemId -> Fleet.slotMap.remove(itemId) }
+                        it.items.forEach { itemId ->
+                            Fleet.slotMap.remove(itemId)
+                            slotIds.add(itemId)
+                        }
                         Fleet.shipMap.remove(it.id)
                     }
                 }
+                Fleet.shipWatcher.onNext(Transform.Remove(shipIds.map { it.toInt() }))
+                Fleet.slotWatcher.onNext(Transform.Remove(slotIds))
             }
             val rawShip = Raw.rawShipMap[api_data.api_ship.api_ship_id]
             val ship = Ship(api_data.api_ship, rawShip)
-            Fleet.shipMap[ship.id]?.onNext(ship)
+            Fleet.shipMap[ship.id] = ship
+            Fleet.shipWatcher.onNext(Transform.Change(listOf(ship.id)))
             User.shipCount.onNext(Fleet.shipMap.size)
             User.slotCount.onNext(Fleet.slotMap.size)
         }

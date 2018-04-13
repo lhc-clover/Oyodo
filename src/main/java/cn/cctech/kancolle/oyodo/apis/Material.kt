@@ -5,17 +5,17 @@ import cn.cctech.kancolle.oyodo.managers.Resource
 data class Material(
         val api_result: Int = 0,
         val api_result_msg: String = "",
-        val api_data: List<MaterialApiData> = listOf()
+        val api_data: List<MaterialApiData>? = listOf()
 ) : JsonBean() {
     override fun process() {
-        Resource.fuel.onNext(api_data[0].api_value)
-        Resource.ammo.onNext(api_data[1].api_value)
-        Resource.metal.onNext(api_data[2].api_value)
-        Resource.bauxite.onNext(api_data[3].api_value)
-        Resource.burner.onNext(api_data[4].api_value)
-        Resource.bucket.onNext(api_data[5].api_value)
-        Resource.research.onNext(api_data[6].api_value)
-        Resource.improve.onNext(api_data[7].api_value)
+        api_data?.get(0)?.api_value?.let { Resource.fuel.onNext(it) }
+        api_data?.get(1)?.api_value?.let { Resource.ammo.onNext(it) }
+        api_data?.get(2)?.api_value?.let { Resource.metal.onNext(it) }
+        api_data?.get(3)?.api_value?.let { Resource.bauxite.onNext(it) }
+        api_data?.get(4)?.api_value?.let { Resource.burner.onNext(it) }
+        api_data?.get(5)?.api_value?.let { Resource.bucket.onNext(it) }
+        api_data?.get(6)?.api_value?.let { Resource.research.onNext(it) }
+        api_data?.get(7)?.api_value?.let { Resource.improve.onNext(it) }
     }
 }
 

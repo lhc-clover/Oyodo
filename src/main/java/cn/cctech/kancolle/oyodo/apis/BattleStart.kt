@@ -1,7 +1,6 @@
 package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.managers.Battle
-import cn.cctech.kancolle.oyodo.managers.Fleet
 
 data class BattleStart(
         val api_result: Int = 0,
@@ -14,8 +13,9 @@ data class BattleStart(
 //        Battle.node = api_data?.api_from_no ?: -1
         Battle.route = api_data?.api_no ?: -1
         Battle.nodeType = api_data?.api_color_no ?: -1
-        val fleet = (params["api_deck_id"]?.toInt() ?: 0) - 1
-        Battle.friendList = Fleet.getShips(fleet)
+//        val fleet = (params["api_deck_id"]?.toInt() ?: 0) - 1
+//        Battle.friendList = Fleet.getShips(fleet)
+        Battle.friendIndex = (params["api_deck_id"]?.toInt() ?: 0) - 1
         Battle.phaseShift(Battle.Phase.Start)
     }
 }
