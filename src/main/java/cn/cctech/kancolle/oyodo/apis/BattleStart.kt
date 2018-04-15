@@ -1,6 +1,8 @@
 package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.managers.Battle
+import cn.cctech.kancolle.oyodo.managers.Fleet
+import cn.cctech.kancolle.oyodo.managers.Transform
 
 data class BattleStart(
         val api_result: Int = 0,
@@ -17,6 +19,8 @@ data class BattleStart(
 //        Battle.friendList = Fleet.getShips(fleet)
         Battle.friendIndex = (params["api_deck_id"]?.toInt() ?: 0) - 1
         Battle.phaseShift(Battle.Phase.Start)
+
+        Fleet.shipWatcher.onNext(Transform.All())
     }
 }
 

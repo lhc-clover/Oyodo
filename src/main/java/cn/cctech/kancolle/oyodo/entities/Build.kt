@@ -20,4 +20,9 @@ class Build {
             e.printStackTrace()
         }
     }
+
+    fun valid(): Boolean {
+        return state > 0 && shipId > 0
+    }
+
 }

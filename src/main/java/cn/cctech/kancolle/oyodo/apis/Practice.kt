@@ -2,7 +2,9 @@ package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.entities.Ship
 import cn.cctech.kancolle.oyodo.managers.Battle
+import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
+import cn.cctech.kancolle.oyodo.managers.Transform
 
 data class Practice(
         val api_result: Int = 0,
@@ -10,6 +12,7 @@ data class Practice(
         val api_data: PracticeApiData? = PracticeApiData()
 ) : JsonBean() {
     override fun process() {
+        Battle.friendIndex = api_data?.api_deck_id?.minus(1) ?: -1
         Battle.friendFormation = api_data?.api_formation?.get(0) ?: -1
         Battle.enemyFormation = api_data?.api_formation?.get(1) ?: -1
         Battle.heading = api_data?.api_formation?.get(2) ?: -1
@@ -52,6 +55,8 @@ data class Practice(
         Battle.calcRank()
 
         Battle.phaseShift(Battle.Phase.Practice)
+
+        Fleet.shipWatcher.onNext(Transform.All())
     }
 }
 
