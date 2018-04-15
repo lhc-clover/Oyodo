@@ -26,3 +26,5 @@ build/
 out/
 .DS_Store
 .gradle/
+.idea/
+*.sh

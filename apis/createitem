@@ -1,0 +1,26 @@
+svdata={
+           "api_result": 1,
+           "api_result_msg": "成功",
+           "api_data": {
+               "api_create_flag": 1,
+               "api_shizai_flag": 1,
+               "api_slot_item": {
+                   "api_id": 209,
+                   "api_slotitem_id": 20
+               },
+               "api_material": [
+                   5210,
+                   5310,
+                   5260,
+                   5150,
+                   7,
+                   26,
+                   11,
+                   0
+               ],
+               "api_type3": 6,
+               "api_unsetslot": [
+                   209
+               ]
+           }
+       }
