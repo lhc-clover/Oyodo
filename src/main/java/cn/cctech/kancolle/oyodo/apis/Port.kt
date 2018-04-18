@@ -36,7 +36,7 @@ data class Port(
             val ship = Ship(it, rawShip)
             Fleet.shipMap[it.api_id] = ship
         }
-        Fleet.shipWatcher.onNext(Transform.All())
+        Fleet.lastUpdate = System.currentTimeMillis()
         User.shipCount.onNext(Fleet.shipMap.size)
         // api_deck_port
         api_data.api_deck_port.forEachIndexed { index, it ->
@@ -49,6 +49,7 @@ data class Port(
 
         Battle.clear()
         Battle.phaseShift(Battle.Phase.Idle)
+        Fleet.shipWatcher.onNext(Transform.All())
     }
 
 }
