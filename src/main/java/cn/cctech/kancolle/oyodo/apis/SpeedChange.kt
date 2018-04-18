@@ -4,6 +4,7 @@ import cn.cctech.kancolle.oyodo.managers.Dock
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.Transform
+import cn.cctech.kancolle.oyodo.utils.CONDITION_REPAIR
 import kotlin.math.max
 
 data class SpeedChange(
@@ -22,9 +23,8 @@ data class SpeedChange(
             val ship = Fleet.shipMap[it.shipId]
             ship?.let {
                 it.nowHp = it.maxHp
-                it.condition = max(40, it.condition)
+                it.condition = max(CONDITION_REPAIR, it.condition)
                 Fleet.shipWatcher.onNext(Transform.Change(listOf(it.id)))
-
             }
             // clear ndock
             it.state = 1

@@ -2,9 +2,7 @@ package cn.cctech.kancolle.oyodo.managers
 
 import cn.cctech.kancolle.oyodo.entities.Ship
 import cn.cctech.kancolle.oyodo.entities.Slot
-import cn.cctech.kancolle.oyodo.utils.MAX_FLEET_COUNT
-import cn.cctech.kancolle.oyodo.utils.MAX_SHIP_COUNT
-import cn.cctech.kancolle.oyodo.utils.Speed
+import cn.cctech.kancolle.oyodo.utils.*
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -16,6 +14,7 @@ object Fleet : IManager() {
     val slotMap = HashMap<Int, Slot>()
     val shipWatcher: PublishSubject<Transform> = PublishSubject.create<Transform>()
     val slotWatcher: PublishSubject<Transform> = PublishSubject.create<Transform>()
+    var lastUpdate: Long = 0
 
 }
 
@@ -86,4 +85,50 @@ private fun getFleetCountBonusScout(index: Int): Double {
     } catch (e: Exception) {
         0.0
     }
+}
+
+fun isFleetInBattle(index: Int): Boolean {
+    return Battle.friendIndex == index
+}
+
+fun isFleetInExpedition(index: Int): Boolean {
+    val expedition = Dock.expeditionList.find { it?.value?.fleetIndex == index + 1 }
+    return try {
+        expedition?.value?.missionId?.toInt()!! > 0
+    } catch (e: Exception) {
+        false
+    }
+}
+
+fun isFleetNeedSupply(index: Int): Boolean {
+    return getShips(index).count {
+        (it.nowFuel < it.maxFuel) || (it.nowBullet < it.maxBullet)
+    } > 0
+}
+
+fun isFleetBadlyDamage(index: Int): Boolean {
+    return getShips(index).count {
+        val percent: Double = it.hp().toDouble().div(it.maxHp)
+        percent in 0.0..BADLY_DAMAGE
+    } > 0
+}
+
+fun isFleetMemberRepair(index: Int): Boolean {
+    return getShips(index).count { ship ->
+        Dock.repairList.any { ship.id == it.value?.shipId }
+    } > 0
+}
+
+fun isFleetLock(index: Int): Boolean {
+    return index >= User.deckCount.value
+}
+
+fun getCondRecoveryTime(index: Int): Long {
+    val minCond = getShips(index).minBy { ship -> ship.condition }?.condition
+            ?: CONDITION_NORMAL
+    val diff = CONDITION_NORMAL - minCond
+    return if (!isFleetInBattle(index) && !isFleetInExpedition(index) && diff > 0) {
+        val minute = Math.ceil(diff.div(3.0)).toInt() * 3
+        Fleet.lastUpdate + minute * 60 * 1000
+    } else 0
 }

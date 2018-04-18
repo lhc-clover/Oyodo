@@ -4,6 +4,8 @@ import cn.cctech.kancolle.oyodo.entities.Repair
 import cn.cctech.kancolle.oyodo.managers.Dock
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Transform
+import cn.cctech.kancolle.oyodo.utils.CONDITION_REPAIR
+import kotlin.math.max
 
 data class NDock(
         val api_result: Int = 0,
@@ -13,6 +15,16 @@ data class NDock(
     override fun process() {
         val shipIds = mutableListOf<Int>()
         api_data?.forEachIndexed { index, it ->
+            val old = Dock.repairList[index].value
+            if (old != null && old.valid() && old.state == 1 && it.api_state == 0) {
+                val ship = Fleet.shipMap[old.shipId]
+                ship?.let {
+                    shipIds.add(it.id)
+                    it.nowHp = it.maxHp
+                    it.condition = max(CONDITION_REPAIR, it.condition)
+
+                }
+            }
             Dock.repairList[index].onNext(Repair(it))
             shipIds.add(it.api_ship_id)
         }
