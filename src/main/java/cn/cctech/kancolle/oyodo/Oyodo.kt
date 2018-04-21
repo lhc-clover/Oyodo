@@ -39,7 +39,9 @@ class Oyodo {
         startFilePath = path
     }
 
-    private fun checkStart(): Boolean {
+    @Throws(Exception::class)
+    fun checkStart(): Boolean {
+        if (startFilePath.isNullOrEmpty()) throw Exception("|api_start2| file not set yet. Please call 'init' first.")
         var isInit = Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
         if (!isInit) {
             val jsonReader = FileReader(startFilePath)
@@ -53,7 +55,7 @@ class Oyodo {
 
     @Throws(Exception::class)
     fun api(url: String, requestBody: ByteArray, responseBody: ByteArray) {
-        if (!checkStart()) throw Exception("Start file not set yet. Please call 'init' first.")
+        if (!checkStart()) throw Exception("|api_start2| file not set yet. Please call 'init' first.")
         else {
             getTypeByUrl(url)?.let {
                 val reader = JsonReader(StringReader(parseContent(responseBody)))
