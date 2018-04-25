@@ -14,6 +14,9 @@ object Mission : IManager() {
         val result = now.get(Calendar.ERA) == lastUpdate.get(Calendar.ERA)
                 && now.get(Calendar.YEAR) == lastUpdate.get(Calendar.YEAR)
                 && now.get(Calendar.DAY_OF_YEAR) == lastUpdate.get(Calendar.DAY_OF_YEAR)
+        println("Now: $now")
+        println("Last: $lastUpdate")
+        println("Result: $result")
         lastUpdate = now
         return result
     }

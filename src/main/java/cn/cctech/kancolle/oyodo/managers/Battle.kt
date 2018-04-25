@@ -48,12 +48,12 @@ object Battle : IManager() {
                         when (flag) {
                             0 -> {
                                 val ship = enemyList[t]
-                                ship.damage.add(dArr[j].toInt())
+                                ship.damage[ship.damage.lastIndex] += dArr[j].toInt()
                             }
                             1 -> {
                                 val friendList = getShips(friendIndex)
                                 val ship = friendList[t]
-                                ship.damage.add(dArr[j].toInt())
+                                ship.damage[ship.damage.lastIndex] += dArr[j].toInt()
                                 shipIds.add(ship.id)
                             }
                             else -> println("Unexpected flag $flag")
@@ -77,7 +77,7 @@ object Battle : IManager() {
                 val friendList = getShips(friendIndex)
                 val ship = friendList[i]
                 val damage = value.toInt()
-                if (damage > 0) ship.damage.add(damage)
+                if (damage > 0) ship.damage[ship.damage.lastIndex] += damage
                 shipIds.add(ship.id)
             } catch (e: Exception) {
                 println("Can't set friend damage for ship $i\n" + e.printStackTrace())
@@ -92,7 +92,7 @@ object Battle : IManager() {
             try {
                 val ship = enemyList[i]
                 val damage = value.toInt()
-                if (damage > 0) ship.damage.add(damage)
+                if (damage > 0) ship.damage[ship.damage.lastIndex] += damage
             } catch (e: Exception) {
                 println("Can't set enemy damage for ship $i\n" + e.printStackTrace())
             }
@@ -100,6 +100,16 @@ object Battle : IManager() {
     }
 
     fun newTurn() {
+        fun newItem(ship: Ship) {
+            ship.damage.add(0)
+        }
+
+        val friendList = getShips(friendIndex)
+        friendList.forEach { newItem(it) }
+        enemyList.forEach { newItem(it) }
+    }
+
+    fun finishBattle() {
         fun setDamage(ship: Ship) {
             ship.nowHp -= ship.damage.sum()
             ship.damage.clear()

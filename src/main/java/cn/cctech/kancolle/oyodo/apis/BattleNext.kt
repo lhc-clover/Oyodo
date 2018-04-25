@@ -18,6 +18,8 @@ data class BattleNext(
         Battle.rank = ""
         Battle.get = ""
 
+        Battle.finishBattle()
+
         Battle.phaseShift(Battle.Phase.Next)
     }
 }

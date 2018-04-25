@@ -49,4 +49,27 @@ class BattleTest24 {
         battleN.process()
     }
 
+    @Test
+    fun rank() {
+        Oyodo.attention().watch(Battle.phase, {
+            when (it) {
+                Battle.Phase.Idle -> println("idle")
+                Battle.Phase.Start -> println("${Battle.area}-${Battle.map}-${Battle.route}")
+                Battle.Phase.BattleDaytime, Battle.Phase.BattleNight -> {
+                    getShips(Battle.friendIndex).forEach { println("${it.name} : ${it.hp()}/${it.maxHp}(-${it.damage.sum()}) ${it.damage}") }
+                    Battle.enemyList.forEach { println("${it.name} : ${it.hp()}/${it.maxHp}(-${it.damage.sum()}) ${it.damage}") }
+                }
+                else -> println("unknown")
+            }
+        })
+        val battleStart = readApiFileWithParams<BattleStart>("battle/2-4-start", object : TypeToken<BattleStart>() {}.type)
+        battleStart.process()
+        println("========== Battle N ==========")
+        val battleN = readApiFileWithParams<BattleDaytime>("battle/2-4-N-battle", object : TypeToken<BattleDaytime>() {}.type)
+        battleN.process()
+        println("========== Battle N night ==========")
+        val battleNNight = readApiFileWithParams<BattleNight>("battle/2-4-N-midnight_battle", object : TypeToken<BattleNight>() {}.type)
+        battleNNight.process()
+    }
+
 }

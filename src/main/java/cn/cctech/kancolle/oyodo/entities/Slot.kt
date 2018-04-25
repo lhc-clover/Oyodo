@@ -24,6 +24,14 @@ class Slot {
         level = port?.api_level ?: 0
     }
 
+    constructor(raw: ApiMstSlotitem?) {
+        name = raw?.api_name ?: ""
+        type = raw?.api_type?.get(3) ?: 0
+        typeCalc = raw?.api_type?.get(2) ?: 0
+        aac = raw?.api_tyku ?: 0
+        scout = raw?.api_saku ?: 0
+    }
+
     fun calcLevelAAC(): Double {
         return when (typeCalc) {
             FIGHTER -> aac + 0.2 * level
