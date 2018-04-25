@@ -74,6 +74,14 @@ class DockEventTest {
     }
 
     @Test
+    fun changeDrag() {
+        Fleet.deckShipIds[0].onNext(listOf(90, 557, 6097, 356, -1, -1))
+        System.out.println("Fleet 1 is ${Fleet.deckShipIds[0].value}")
+        val change = readApiFileWithParams<Change>("change_drag", object : TypeToken<Change>() {}.type)
+        change.process()
+    }
+
+    @Test
     fun charge() {
         System.out.println("Before == fuel ${Resource.fuel.value} ammo ${Resource.ammo.value} metal ${Resource.metal.value} bauxite ${Resource.bauxite.value}")
         val charge = readApiFile<Charge>("charge", object : TypeToken<Charge>() {}.type)

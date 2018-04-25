@@ -1,6 +1,7 @@
 package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.entities.Ship
+import cn.cctech.kancolle.oyodo.entities.Slot
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
 import cn.cctech.kancolle.oyodo.managers.Transform
@@ -15,6 +16,11 @@ data class Ship3(
             val rawShip = Raw.rawShipMap[it.api_ship_id]
             val ship = Ship(it, rawShip)
             Fleet.shipMap[it.api_id] = ship
+            it.api_slot.forEach {
+                val rawSlot = Raw.rawSlotMap[it]
+                val slot = Slot(rawSlot)
+                Fleet.slotMap
+            }
         }
         Fleet.shipWatcher.onNext(Transform.Add(api_data.api_ship_data.map { it.api_id }))
         api_data.api_deck_data.forEach {

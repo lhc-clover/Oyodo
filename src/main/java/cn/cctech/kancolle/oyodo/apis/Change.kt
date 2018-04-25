@@ -1,6 +1,7 @@
 package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.managers.Fleet
+import java.util.*
 
 data class Change(
         val api_result: Int = 0,
@@ -11,18 +12,18 @@ data class Change(
         var fleetIdx = -1
         var shipIdx = -1
         try {
-            fleetIdx = params["api_id"]!!.toInt()
+            fleetIdx = params["api_id"]!!.toInt() - 1
             shipId = params["api_ship_id"]!!.toInt()
             shipIdx = params["api_ship_idx"]!!.toInt()
         } catch (e: Exception) {
         }
-        if (fleetIdx > 0) {
-            val fleet = Fleet.deckShipIds[fleetIdx - 1]
+        if (fleetIdx >= 0) {
+            val fleet = Fleet.deckShipIds[fleetIdx]
             val fleetIds = fleet.value.toMutableList()
             when (shipId) {
                 -2 -> {
                     val after = fleetIds.mapIndexed { index, it -> if (index != 0) -1 else it }
-                    Fleet.deckShipIds[fleetIdx - 1].onNext(after)
+                    Fleet.deckShipIds[fleetIdx].onNext(after)
                 }
                 -1 -> {
                     fleetIds.removeAt(shipIdx)
@@ -32,12 +33,16 @@ data class Change(
                 else -> {
                     val alreadyId = fleetIds[shipIdx]
                     if (alreadyId != -1) {
-                        for (it in Fleet.deckShipIds) {
+                        for ((index, it) in Fleet.deckShipIds.withIndex()) {
                             val anotherFleet = it.value?.toMutableList() ?: mutableListOf()
                             val targetIdx = anotherFleet.indexOf(shipId)
                             if (targetIdx != -1) {
-                                anotherFleet[targetIdx] = alreadyId
-                                it.onNext(anotherFleet)
+                                if (fleetIdx == index) {
+                                    fleetIds[targetIdx] = alreadyId
+                                } else {
+                                    anotherFleet[targetIdx] = alreadyId
+                                    it.onNext(anotherFleet)
+                                }
                             }
                         }
                     }

@@ -54,7 +54,7 @@ data class ApiDeck(
         val api_id: Int = 0,
         val api_name: String = "",
         val api_name_id: String = "",
-        val api_mission: List<Int> = listOf(),
+        val api_mission: List<String> = listOf(),
         val api_flagship: String = "",
         val api_ship: List<Int> = listOf()
 )

@@ -39,7 +39,9 @@ class Oyodo {
         startFilePath = path
     }
 
-    private fun checkStart(): Boolean {
+    @Throws(Exception::class)
+    fun checkStart(): Boolean {
+        if (startFilePath.isNullOrEmpty()) throw Exception("|api_start2| file not set yet. Please call 'init' first.")
         var isInit = Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
         if (!isInit) {
             val jsonReader = FileReader(startFilePath)
@@ -53,7 +55,7 @@ class Oyodo {
 
     @Throws(Exception::class)
     fun api(url: String, requestBody: ByteArray, responseBody: ByteArray) {
-        if (!checkStart()) throw Exception("Start file not set yet. Please call 'init' first.")
+        if (!checkStart()) throw Exception("|api_start2| file not set yet. Please call 'init' first.")
         else {
             getTypeByUrl(url)?.let {
                 val reader = JsonReader(StringReader(parseContent(responseBody)))
@@ -72,12 +74,14 @@ class Oyodo {
             url.endsWith("api_get_member/deck") -> object : TypeToken<Deck>() {}.type
             url.endsWith("api_get_member/ndock") -> object : TypeToken<NDock>() {}.type
             url.endsWith("api_get_member/kdock") -> object : TypeToken<KDock>() {}.type
-            url.endsWith("api_req_hensei/change") -> object : TypeToken<KDock>() {}.type
+            url.endsWith("api_req_nyukyo/start") -> object : TypeToken<NyukyoStart>() {}.type
+            url.endsWith("api_req_hensei/change") -> object : TypeToken<Change>() {}.type
             url.endsWith("api_req_hokyu/charge") -> object : TypeToken<Charge>() {}.type
             url.endsWith("api_req_kaisou/slot_exchange_index") -> object : TypeToken<SlotExchangeIndex>() {}.type
             url.endsWith("api_get_member/ship3") -> object : TypeToken<Ship3>() {}.type
             url.endsWith("api_req_kaisou/slot_deprive") -> object : TypeToken<SlotDeprive>() {}.type
             url.endsWith("api_req_kousyou/createitem") -> object : TypeToken<CreateItem>() {}.type
+            url.endsWith("api_get_member/slot_item") -> object : TypeToken<SlotItem>() {}.type
             url.endsWith("api_req_kousyou/getship") -> object : TypeToken<GetShip>() {}.type
             url.endsWith("api_req_kousyou/destroyship") -> object : TypeToken<DestroyShip>() {}.type
             url.endsWith("api_req_kousyou/destroyitem2") -> object : TypeToken<DestroyItem>() {}.type
@@ -86,6 +90,7 @@ class Oyodo {
             url.endsWith("api_req_kaisou/powerup") -> object : TypeToken<PowerUp>() {}.type
             url.endsWith("api_req_kousyou/createship_speedchange") -> object : TypeToken<CreateShipSpeedChange>() {}.type
             url.endsWith("api_get_member/questlist") -> object : TypeToken<QuestList>() {}.type
+            url.endsWith("api_req_quest/clearitemget") -> object : TypeToken<QuestClear>() {}.type
             url.endsWith("api_req_map/start") -> object : TypeToken<BattleStart>() {}.type
             url.endsWith("api_req_map/next") -> object : TypeToken<BattleNext>() {}.type
             url.endsWith("api_req_sortie/battle") -> object : TypeToken<BattleDaytime>() {}.type
