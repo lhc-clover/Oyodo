@@ -1,8 +1,10 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.User
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 import io.reactivex.subjects.BehaviorSubject
 
 data class DestroyItem(
@@ -11,6 +13,8 @@ data class DestroyItem(
         val api_data: DestroyItemApiData? = DestroyItemApiData()
 ) : JsonBean() {
     override fun process() {
+        setMissionProgress(this, MissionRequireType.DESTROY_ITEM)
+
         fun plusValue(material: BehaviorSubject<Int>, value: Int) {
             if (value > 0) material.onNext(material.value.plus(value))
         }

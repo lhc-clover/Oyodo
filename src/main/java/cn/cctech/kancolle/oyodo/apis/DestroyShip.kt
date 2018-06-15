@@ -1,9 +1,11 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.Transform
 import cn.cctech.kancolle.oyodo.managers.User
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 
 data class DestroyShip(
         val api_result: Int = 0,
@@ -16,7 +18,7 @@ data class DestroyShip(
         api_data?.api_material?.get(2)?.let { Resource.metal.onNext(it) }
         api_data?.api_material?.get(3)?.let { Resource.bauxite.onNext(it) }
 
-        val slotDestroy = params["api_slot_dest_flag"]?.equals(1) ?: false
+        val slotDestroy = params["api_slot_dest_flag"]?.equals("1") ?: false
         params["api_ship_id"]?.let {
             val shipIds = it.split("%2C")
             val slotIds = mutableListOf<Int>()
@@ -39,6 +41,8 @@ data class DestroyShip(
             Fleet.slotWatcher.onNext(Transform.Remove(slotIds))
             User.slotCount.onNext(Fleet.slotMap.size)
         }
+
+        setMissionProgress(this, MissionRequireType.DESTROY_SHIP)
     }
 }
 

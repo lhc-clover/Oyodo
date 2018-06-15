@@ -24,4 +24,5 @@ object Mission : IManager() {
     private fun getNowTime(): Calendar {
         return Calendar.getInstance(TimeZone.getTimeZone("GMT+09:00"))
     }
+
 }

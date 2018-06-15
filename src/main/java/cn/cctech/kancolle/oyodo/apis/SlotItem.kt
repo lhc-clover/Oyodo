@@ -4,6 +4,7 @@ import cn.cctech.kancolle.oyodo.entities.Slot
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
 import cn.cctech.kancolle.oyodo.managers.Transform
+import cn.cctech.kancolle.oyodo.managers.User
 
 data class SlotItem(
         val api_result: Int = 0,
@@ -17,6 +18,7 @@ data class SlotItem(
             val slot = Slot(rawSlot, it)
             Fleet.slotMap[it.api_id] = slot
         }
+        User.slotCount.onNext(Fleet.slotMap.count())
         Fleet.slotWatcher.onNext(Transform.All())
     }
 }
