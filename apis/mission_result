@@ -1,0 +1,56 @@
+api%5Fverno=1&api%5Ftoken=7a6396423a19fd055d34f62f4d4ebbcb4d19e0c8&api%5Fdeck%5Fid=3
+svdata={
+           "api_result": 1,
+           "api_result_msg": "成功",
+           "api_data": {
+               "api_ship_id": [
+                   -1,
+                   21,
+                   4,
+                   11,
+                   17
+               ],
+               "api_clear_result": 1,
+               "api_get_exp": 20,
+               "api_member_lv": 26,
+               "api_member_exp": 34462,
+               "api_get_ship_exp": [
+                   22,
+                   15,
+                   15,
+                   15
+               ],
+               "api_get_exp_lvup": [
+                   [
+                       8703,
+                       9100
+                   ],
+                   [
+                       6339,
+                       6600
+                   ],
+                   [
+                       4306,
+                       4500
+                   ],
+                   [
+                       4056,
+                       4500
+                   ]
+               ],
+               "api_maparea_name": "鎮守府海域",
+               "api_detail": "外海まで足を延ばし、艦隊の練度<br>を高めよう！",
+               "api_quest_name": "長距離練習航海",
+               "api_quest_level": 1,
+               "api_get_material": [
+                   0,
+                   100,
+                   30,
+                   0
+               ],
+               "api_useitem_flag": [
+                   0,
+                   0
+               ]
+           }
+       }

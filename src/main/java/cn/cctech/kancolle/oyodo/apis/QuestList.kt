@@ -2,6 +2,7 @@ package cn.cctech.kancolle.oyodo.apis
 
 import cn.cctech.kancolle.oyodo.entities.Quest
 import cn.cctech.kancolle.oyodo.managers.Mission
+import com.google.gson.Gson
 import com.google.gson.JsonArray
 
 data class QuestList(
@@ -22,8 +23,11 @@ data class QuestList(
         }
         api_data.api_list.forEach {
             try {
-                val quest = Quest(it)
-                map[quest.id] = quest
+                val data = Gson().fromJson(it, QuestListBean::class.java)
+                val id = data.api_no
+                val quest = map[id]
+                if (quest != null) quest.setup(data)
+                else map[id] = Quest(data)
             } catch (e: Exception) {
                 println("$it is not a quest object")
             }

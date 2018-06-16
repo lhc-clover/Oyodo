@@ -1,10 +1,12 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.entities.Slot
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Raw
 import cn.cctech.kancolle.oyodo.managers.Transform
 import cn.cctech.kancolle.oyodo.managers.User
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 
 data class CreateItem(
         val api_result: Int = 0,
@@ -20,6 +22,8 @@ data class CreateItem(
             Fleet.slotWatcher.onNext(Transform.Add(listOf(slotId)))
             User.slotCount.onNext(Fleet.slotMap.size)
         }
+
+        setMissionProgress(this, MissionRequireType.CREATE_ITEM)
     }
 }
 

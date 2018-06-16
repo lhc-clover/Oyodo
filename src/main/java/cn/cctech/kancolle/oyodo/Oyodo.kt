@@ -11,9 +11,10 @@ import java.io.FileReader
 import java.io.StringReader
 import java.lang.reflect.Type
 
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 class Oyodo {
 
-    private var startFilePath: String? = null
+    private var startFilePath: String? = ""
 
     companion object {
 
@@ -44,13 +45,17 @@ class Oyodo {
         if (startFilePath.isNullOrEmpty()) throw Exception("|api_start2| file not set yet. Please call 'init' first.")
         var isInit = Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
         if (!isInit) {
-            val jsonReader = FileReader(startFilePath)
-            jsonReader.skip(7) // skip 'svdata='
-            val start = Gson().fromJson<Start>(jsonReader, object : TypeToken<Start>() {}.type)
-            start.process()
+            readStartFile()
             isInit = Raw.rawShipMap.size > 0 && Raw.rawSlotMap.size > 0
         }
         return isInit
+    }
+
+    private fun readStartFile() {
+        val jsonReader = FileReader(startFilePath)
+        jsonReader.skip(7) // skip 'svdata='
+        val start = Gson().fromJson<Start>(jsonReader, object : TypeToken<Start>() {}.type)
+        start.process()
     }
 
     @Throws(Exception::class)
@@ -74,6 +79,7 @@ class Oyodo {
             url.endsWith("api_get_member/deck") -> object : TypeToken<Deck>() {}.type
             url.endsWith("api_get_member/ndock") -> object : TypeToken<NDock>() {}.type
             url.endsWith("api_get_member/kdock") -> object : TypeToken<KDock>() {}.type
+            url.endsWith("api_req_mission/result") -> object : TypeToken<MissionResult>() {}.type
             url.endsWith("api_req_nyukyo/start") -> object : TypeToken<NyukyoStart>() {}.type
             url.endsWith("api_req_hensei/change") -> object : TypeToken<Change>() {}.type
             url.endsWith("api_req_hokyu/charge") -> object : TypeToken<Charge>() {}.type
@@ -81,10 +87,12 @@ class Oyodo {
             url.endsWith("api_get_member/ship3") -> object : TypeToken<Ship3>() {}.type
             url.endsWith("api_req_kaisou/slot_deprive") -> object : TypeToken<SlotDeprive>() {}.type
             url.endsWith("api_req_kousyou/createitem") -> object : TypeToken<CreateItem>() {}.type
+            url.endsWith("api_req_kousyou/createship") -> object : TypeToken<CreateShip>() {}.type
             url.endsWith("api_get_member/slot_item") -> object : TypeToken<SlotItem>() {}.type
             url.endsWith("api_req_kousyou/getship") -> object : TypeToken<GetShip>() {}.type
             url.endsWith("api_req_kousyou/destroyship") -> object : TypeToken<DestroyShip>() {}.type
             url.endsWith("api_req_kousyou/destroyitem2") -> object : TypeToken<DestroyItem>() {}.type
+            url.endsWith("api_req_kousyou/remodel_slot") -> object : TypeToken<RemodelSlot>() {}.type
             url.endsWith("api_get_member/material") -> object : TypeToken<Material>() {}.type
             url.endsWith("api_req_nyukyo/speedchange") -> object : TypeToken<SpeedChange>() {}.type
             url.endsWith("api_req_kaisou/powerup") -> object : TypeToken<PowerUp>() {}.type

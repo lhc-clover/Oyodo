@@ -25,6 +25,7 @@ class Ship {
     var carrys = mutableListOf<Int>()//搭载
     var scout: Int = 0 //索敌
     var yomi: String = "" //舰假名或舰阶
+    var type: Int = 0 //舰种
 
     var damage: MutableList<Int> = arrayListOf() //损伤
 
@@ -46,6 +47,7 @@ class Ship {
             maxFuel = rawShip.api_fuel_max
             maxBullet = rawShip.api_bull_max
             name = rawShip.api_name
+            type = rawShip.api_stype
         }
     }
 
@@ -67,6 +69,7 @@ class Ship {
             maxFuel = rawShip.api_fuel_max
             maxBullet = rawShip.api_bull_max
             name = rawShip.api_name
+            type = rawShip.api_stype
         }
     }
 
@@ -77,6 +80,7 @@ class Ship {
             name = it.api_name
             soku = it.api_soku
             yomi = it.api_yomi
+            type = it.api_stype
         }
     }
 

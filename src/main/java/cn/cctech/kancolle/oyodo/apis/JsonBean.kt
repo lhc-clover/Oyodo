@@ -15,4 +15,5 @@ abstract class JsonBean {
                     params[it[0]] = it[1]
                 }
     }
+
 }

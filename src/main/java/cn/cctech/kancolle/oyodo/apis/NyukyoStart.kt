@@ -1,8 +1,10 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.Transform
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 import kotlin.math.max
 
 data class NyukyoStart(
@@ -25,7 +27,9 @@ data class NyukyoStart(
 
             }
             Resource.bucket.onNext(Resource.bucket.value - 1)
+
         }
 
+        setMissionProgress(this, MissionRequireType.REPAIR)
     }
 }

@@ -1,8 +1,10 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.managers.Resource
 import cn.cctech.kancolle.oyodo.managers.Transform
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 
 data class Charge(
         val api_result: Int = 0,
@@ -29,6 +31,8 @@ data class Charge(
             }
         }
         Fleet.shipWatcher.onNext(Transform.Change(shipIds))
+
+        setMissionProgress(this, MissionRequireType.SUPPLY)
     }
 }
 

@@ -1,6 +1,8 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Battle
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 
 data class BattleResult(
         val api_result: Int = 0,
@@ -11,8 +13,9 @@ data class BattleResult(
         api_data?.api_get_ship?.let {
             Battle.get = it.api_ship_name
         }
-//        api_data?.api_win_rank?.let { Battle.rank = it }
         Battle.phaseShift(Battle.Phase.BattleResult)
+
+        setMissionProgress(this, MissionRequireType.BATTLE)
     }
 }
 

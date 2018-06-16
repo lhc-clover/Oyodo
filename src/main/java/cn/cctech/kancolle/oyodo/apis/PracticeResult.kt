@@ -1,6 +1,8 @@
 package cn.cctech.kancolle.oyodo.apis
 
+import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Battle
+import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 
 data class PracticeResult(
         val api_result: Int = 0,
@@ -10,6 +12,8 @@ data class PracticeResult(
     override fun process() {
         api_data?.api_win_rank?.let { Battle.rank = it }
         Battle.phaseShift(Battle.Phase.PracticeResult)
+
+        setMissionProgress(this, MissionRequireType.PRACTICE)
     }
 }
 
