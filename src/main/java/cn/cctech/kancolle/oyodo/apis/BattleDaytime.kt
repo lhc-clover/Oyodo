@@ -172,14 +172,14 @@ data class ApiOpeningAtack(
 )
 
 data class ApiRaigeki(
-        var api_frai: List<Int> = listOf(),
-        var api_erai: List<Int> = listOf(),
+//        var api_frai: List<Int> = listOf(),
+//        var api_erai: List<Int> = listOf(),
+//        var api_fydam: List<Double> = listOf(),
+//        var api_eydam: List<Double> = listOf(),
+//        var api_fcl: List<Int> = listOf(),
+//        var api_ecl: List<Int> = listOf(),
         var api_fdam: List<Double> = listOf(),
-        var api_edam: List<Double> = listOf(),
-        var api_fydam: List<Double> = listOf(),
-        var api_eydam: List<Double> = listOf(),
-        var api_fcl: List<Int> = listOf(),
-        var api_ecl: List<Int> = listOf()
+        var api_edam: List<Double> = listOf()
 )
 
 data class ApiAirBaseInjection(

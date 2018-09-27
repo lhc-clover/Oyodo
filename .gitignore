@@ -28,3 +28,5 @@ out/
 .gradle/
 .idea/
 *.sh
+apis/
+src/test/

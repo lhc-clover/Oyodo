@@ -11,10 +11,18 @@ object Battle : IManager() {
         BattleDaytime,
         BattleNight,
         BattleNightSp,
+        BattleAir,
         BattleResult,
         Practice,
         PracticeNight,
         PracticeResult,
+        BattleCombined,
+        BattleCombinedEach,
+        BattleCombinedEc,
+        BattleCombinedWater,
+        BattleCombinedWaterEach,
+        BattleCombinedNight,
+        BattleCombinedResult,
         Next
     }
 
@@ -32,10 +40,13 @@ object Battle : IManager() {
     //    var friendList: MutableList<BehaviorSubject<Ship>> = mutableListOf()
     var friendFormation: Int = -1
     var enemyList: MutableList<Ship> = mutableListOf()
+    var subEnemyList: MutableList<Ship> = mutableListOf()
     var enemyFormation: Int = -1
+    var friendCombined = false
+    var enemyCombined = false
 
     @Suppress("UNCHECKED_CAST")
-    fun calcTargetDamage(targetList: List<Any>?, damageList: List<Any>?, flagList: List<Int>?) {
+    fun calcTargetDamage(targetList: List<Any>?, damageList: List<Any>?, flagList: List<Int>?, enemyOnly: Boolean = false) {
         if (targetList == null || damageList == null || flagList == null) return
         try {
             val shipIds = mutableListOf<Int>()
@@ -44,15 +55,19 @@ object Battle : IManager() {
                 val tArr = target as ArrayList<Int>
                 val dArr = damageList[i] as ArrayList<Double>
                 for ((j, t) in tArr.withIndex()) {
+                    if (t < 0) continue
+                    if (enemyOnly && flag == 1) continue
                     try {
+                        val subTeam = t >= 6
+                        val index = if (subTeam) t - 6 else t
                         when (flag) {
                             0 -> {
-                                val ship = enemyList[t]
+                                val ship = if (subTeam) subEnemyList[index] else enemyList[index]
                                 ship.damage[ship.damage.lastIndex] += dArr[j].toInt()
                             }
                             1 -> {
-                                val friendList = getShips(friendIndex)
-                                val ship = friendList[t]
+                                val friendList = getShips(if (subTeam) 1 else friendIndex)
+                                val ship = friendList[index]
                                 ship.damage[ship.damage.lastIndex] += dArr[j].toInt()
                                 shipIds.add(ship.id)
                             }
@@ -69,13 +84,18 @@ object Battle : IManager() {
         }
     }
 
-    fun calcFriendOrdinalDamage(damageList: List<Double>?) {
+    fun calcFriendOrdinalDamage(damageList: List<Double>?, subTeam: Boolean = false) {
         if (damageList == null) return
+        val values = if (damageList.size == 7) damageList.take(6) else damageList
         val shipIds = mutableListOf<Int>()
-        for ((i, value) in damageList.withIndex()) {
+        for ((i, value) in values.withIndex()) {
             try {
-                val friendList = getShips(friendIndex)
-                val ship = friendList[i]
+                val fleet = if (friendCombined) {
+                    if (subTeam || i >= 6) 1 else 0
+                } else friendIndex
+                val index = if (i >= 6) i - 6 else i
+                val friendList = getShips(fleet)
+                val ship = friendList[index]
                 val damage = value.toInt()
                 if (damage > 0) ship.damage[ship.damage.lastIndex] += damage
                 shipIds.add(ship.id)
@@ -86,11 +106,13 @@ object Battle : IManager() {
         Fleet.shipWatcher.onNext(Transform.Change(shipIds))
     }
 
-    fun calcEnemyOrdinalDamage(damageList: List<Double>?) {
+    fun calcEnemyOrdinalDamage(damageList: List<Double>?, subTeam: Boolean = false) {
         if (damageList == null) return
-        for ((i, value) in damageList.withIndex()) {
+        val values = if (damageList.size == 7) damageList.take(6) else damageList
+        for ((i, value) in values.withIndex()) {
             try {
-                val ship = enemyList[i]
+                val index = if (i >= 6) i - 6 else i
+                val ship = if (subTeam) subEnemyList[index] else enemyList[index]
                 val damage = value.toInt()
                 if (damage > 0) ship.damage[ship.damage.lastIndex] += damage
             } catch (e: Exception) {
@@ -104,9 +126,12 @@ object Battle : IManager() {
             ship.damage.add(0)
         }
 
-        val friendList = getShips(friendIndex)
-        friendList.forEach { newItem(it) }
+        if (friendCombined) {
+            getShips(0).forEach { newItem(it) }
+            getShips(1).forEach { newItem(it) }
+        } else getShips(friendIndex).forEach { newItem(it) }
         enemyList.forEach { newItem(it) }
+        if (enemyCombined) subEnemyList.forEach { newItem(it) }
     }
 
     fun finishBattle() {
@@ -115,25 +140,29 @@ object Battle : IManager() {
             ship.damage.clear()
         }
 
-        val friendList = getShips(friendIndex)
-        friendList.forEach { setDamage(it) }
+        if (friendCombined) {
+            getShips(0).forEach { setDamage(it) }
+            getShips(1).forEach { setDamage(it) }
+        } else getShips(friendIndex).forEach { setDamage(it) }
         enemyList.forEach { setDamage(it) }
+        if (enemyCombined) subEnemyList.forEach { setDamage(it) }
     }
 
     fun calcRank() {
-        val friendList = getShips(friendIndex)
+        val friendList = if (friendCombined) getShips(0).plus(getShips(1)) else getShips(friendIndex)
         val friendCount = friendList.size
         val friendSunkCount = friendList.count { it.hp() <= 0 }
         val friendNowSum = friendList.sumBy { it.nowHp }
 //        val friendAfterSum = shipList.sumBy { it?.hp() ?: 0 }
 //            friendFlagshipCritical = shipList[0]?.getHpFixed()?.times(4) ?: 0 <= shipList[0]?.maxHp ?: 0
         val friendDamageSum = friendList.sumBy { it.damage.sum() }
-        val enemyCount = enemyList.size
-        val enemySunkCount = enemyList.count { it.hp() <= 0 }
-        val enemyNowSum = enemyList.sumBy { it.nowHp }
+        val enemies = if (enemyCombined) enemyList.plus(subEnemyList) else enemyList
+        val enemyCount = enemies.size
+        val enemySunkCount = enemies.count { it.hp() <= 0 }
+        val enemyNowSum = enemies.sumBy { it.nowHp }
 //        val enemyAfterSum = enemyList.sumBy { it.hp() }
-        val enemyFlagShipSunk = enemyList[0].hp() <= 0
-        val enemyDamageSum = enemyList.sumBy { it.damage.sum() }
+        val enemyFlagShipSunk = enemies[0].hp() <= 0
+        val enemyDamageSum = enemies.sumBy { it.damage.sum() }
 
         val friendDamageRate = friendDamageSum * 100 / friendNowSum
         val enemyDamageRate = enemyDamageSum * 100 / enemyNowSum
@@ -171,8 +200,11 @@ object Battle : IManager() {
     fun clear() {
         friendIndex = -1
         friendFormation = -1
+        friendCombined = false
         enemyList.clear()
+        subEnemyList.clear()
         enemyFormation = -1
+        enemyCombined = false
         area = -1
         map = -1
         heading = -1

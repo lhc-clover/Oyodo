@@ -1,9 +1,6 @@
 package cn.cctech.kancolle.oyodo.data
 
-import cn.cctech.kancolle.oyodo.apis.BattleResult
-import cn.cctech.kancolle.oyodo.apis.MissionResult
-import cn.cctech.kancolle.oyodo.apis.JsonBean
-import cn.cctech.kancolle.oyodo.apis.PracticeResult
+import cn.cctech.kancolle.oyodo.apis.*
 import cn.cctech.kancolle.oyodo.managers.Battle
 import cn.cctech.kancolle.oyodo.managers.Fleet
 import cn.cctech.kancolle.oyodo.utils.*
@@ -25,6 +22,7 @@ enum class MissionRequireType {
 
 data class MissionData(val description: String, val require: Int, val type: MissionRequireType, val processor: (JsonBean) -> Int)
 
+@Suppress("UNCHECKED_CAST", "MoveLambdaOutsideParentheses")
 val missionMap = mapOf(
 
         /** ==========出击类========== */
@@ -32,7 +30,7 @@ val missionMap = mapOf(
                 "获得胜利1次",
                 1,
                 MissionRequireType.BATTLE,
-                { if (isBattleWin(it as BattleResult)) 1 else 0 }),
+                { if (isBattleWin(it as IBattleResult<IBattleResultApiData>)) 1 else 0 }),
         216 to MissionData(
                 "进行战斗1次",
                 1,
@@ -52,7 +50,7 @@ val missionMap = mapOf(
                 "2-1～2-5 BOSS战胜利5次",
                 5,
                 MissionRequireType.BATTLE,
-                { if ((Battle.area == 2) && (Battle.nodeType == BossBattle) && isBattleWin(it as BattleResult)) 1 else 0 }),
+                { if ((Battle.area == 2) && (Battle.nodeType == BossBattle) && isBattleWin(it as IBattleResult<IBattleResultApiData>)) 1 else 0 }),
         230 to MissionData(
                 "击沉潜水舰6只",
                 6,
