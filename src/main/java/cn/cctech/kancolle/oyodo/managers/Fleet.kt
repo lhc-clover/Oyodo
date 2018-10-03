@@ -88,7 +88,7 @@ private fun getFleetCountBonusScout(index: Int): Double {
 }
 
 fun isFleetInBattle(index: Int): Boolean {
-    return Battle.friendIndex == index
+    return if (Battle.friendCombined) (index == 0 || index == 1) else (Battle.friendIndex == index)
 }
 
 fun isFleetInExpedition(index: Int): Boolean {

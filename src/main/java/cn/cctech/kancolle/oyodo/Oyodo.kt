@@ -24,13 +24,13 @@ class Oyodo {
         fun attention(): Oyodo {
             var instance = singleInstance
             if (instance == null) {
-                synchronized(Oyodo::class.java, {
+                synchronized(Oyodo::class.java) {
                     instance = singleInstance
                     if (instance == null) {
                         instance = Oyodo()
                         singleInstance = instance
                     }
-                })
+                }
             }
             return instance!!
         }
@@ -99,15 +99,28 @@ class Oyodo {
             url.endsWith("api_req_kousyou/createship_speedchange") -> object : TypeToken<CreateShipSpeedChange>() {}.type
             url.endsWith("api_get_member/questlist") -> object : TypeToken<QuestList>() {}.type
             url.endsWith("api_req_quest/clearitemget") -> object : TypeToken<QuestClear>() {}.type
+            url.endsWith("api_req_hensei/preset_select") -> object : TypeToken<PresetSelect>() {}.type
+
             url.endsWith("api_req_map/start") -> object : TypeToken<BattleStart>() {}.type
             url.endsWith("api_req_map/next") -> object : TypeToken<BattleNext>() {}.type
             url.endsWith("api_req_sortie/battle") -> object : TypeToken<BattleDaytime>() {}.type
             url.endsWith("api_req_battle_midnight/battle") -> object : TypeToken<BattleNight>() {}.type
             url.endsWith("api_req_battle_midnight/sp_midnight") -> object : TypeToken<BattleNightSp>() {}.type
             url.endsWith("api_req_sortie/battleresult") -> object : TypeToken<BattleResult>() {}.type
+            url.endsWith("api_req_sortie/ld_airbattle") -> object : TypeToken<BattleAir>() {}.type
+
             url.endsWith("api_req_practice/battle") -> object : TypeToken<Practice>() {}.type
             url.endsWith("api_req_practice/midnight_battle") -> object : TypeToken<PracticeNight>() {}.type
             url.endsWith("api_req_practice/battle_result") -> object : TypeToken<PracticeResult>() {}.type
+
+            url.endsWith("api_req_combined_battle/battle") -> object : TypeToken<BattleCombined>() {}.type
+            url.endsWith("api_req_combined_battle/battle_water") -> object : TypeToken<BattleCombinedWater>() {}.type
+            url.endsWith("api_req_combined_battle/each_battle") -> object : TypeToken<BattleCombinedEach>() {}.type
+            url.endsWith("api_req_combined_battle/each_battle_water") -> object : TypeToken<BattleCombinedWaterEach>() {}.type
+            url.endsWith("api_req_combined_battle/ec_midnight_battle") -> object : TypeToken<BattleCombinedNight>() {}.type
+            url.endsWith("api_req_combined_battle/ec_battle") -> object : TypeToken<BattleCombinedEc>() {}.type
+            url.endsWith("api_req_combined_battle/battleresult") -> object : TypeToken<BattleCombinedResult>() {}.type
+            url.endsWith("api_req_combined_battle/ld_airbattle") -> object : TypeToken<BattleCombinedAir>() {}.type
             else -> null
         }
     }

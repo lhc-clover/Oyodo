@@ -4,11 +4,15 @@ import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.managers.Battle
 import cn.cctech.kancolle.oyodo.utils.setMissionProgress
 
-data class BattleResult(
+abstract class IBattleResult<T : IBattleResultApiData>(
         val api_result: Int = 0,
         val api_result_msg: String = "",
-        val api_data: BattleResultApiData? = BattleResultApiData()
-) : JsonBean() {
+        val api_data: T?
+) : JsonBean()
+
+data class BattleResult(val data: BattleResultApiData = BattleResultApiData()) : IBattleResult<BattleResultApiData>(
+        api_data = data
+) {
     override fun process() {
         api_data?.api_get_ship?.let {
             Battle.get = it.api_ship_name
@@ -19,7 +23,9 @@ data class BattleResult(
     }
 }
 
-data class BattleResultApiData(
+data class BattleResultApiData(val noUse: Int = 0) : IBattleResultApiData()
+
+abstract class IBattleResultApiData(
         val api_ship_id: List<Int> = listOf(),
         val api_win_rank: String? = null,
         val api_get_exp: Int = 0,

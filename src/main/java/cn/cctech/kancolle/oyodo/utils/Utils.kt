@@ -1,9 +1,6 @@
 package cn.cctech.kancolle.oyodo.utils
 
-import cn.cctech.kancolle.oyodo.apis.BattleResult
-import cn.cctech.kancolle.oyodo.apis.MissionResult
-import cn.cctech.kancolle.oyodo.apis.JsonBean
-import cn.cctech.kancolle.oyodo.apis.PracticeResult
+import cn.cctech.kancolle.oyodo.apis.*
 import cn.cctech.kancolle.oyodo.data.MissionRequireType
 import cn.cctech.kancolle.oyodo.data.missionMap
 import cn.cctech.kancolle.oyodo.entities.Quest
@@ -26,7 +23,7 @@ fun setMissionProgress(bean: JsonBean, type: MissionRequireType) {
     Mission.questMap.onNext(questMap)
 }
 
-fun isBattleWin(bean: BattleResult): Boolean {
+fun isBattleWin(bean: IBattleResult<IBattleResultApiData>): Boolean {
     val rank = bean.api_data?.api_win_rank ?: ""
     return (rank == "S" || rank == "A" || rank == "B")
 }

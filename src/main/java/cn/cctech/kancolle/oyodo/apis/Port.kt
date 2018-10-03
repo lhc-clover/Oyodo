@@ -49,6 +49,8 @@ data class Port(
 
         Battle.clear()
         Battle.phaseShift(Battle.Phase.Idle)
+        Battle.friendCombined = (api_data.api_combined_flag > 0)
+
         Fleet.shipWatcher.onNext(Transform.All())
     }
 
@@ -62,7 +64,8 @@ data class ApiData(
         val api_basic: ApiBasic = ApiBasic(),
         val api_log: List<ApiLog> = listOf(),
         val api_p_bgm_id: Int = 0,
-        val api_parallel_quest_count: Int = 0
+        val api_parallel_quest_count: Int = 0,
+        val api_combined_flag: Int = 0
 )
 
 data class ApiLog(
