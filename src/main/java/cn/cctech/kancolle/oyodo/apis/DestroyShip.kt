@@ -35,6 +35,10 @@ data class DestroyShip(
                         slotIds.add(itemId)
                     }
                 }
+                Fleet.deckShipIds.forEach {
+                    val ids = it.value.minus(shipId.toInt())
+                    it.onNext(ids)
+                }
             }
             Fleet.shipWatcher.onNext(Transform.Remove(shipIds.map { it.toInt() }))
             User.shipCount.onNext(Fleet.shipMap.size)

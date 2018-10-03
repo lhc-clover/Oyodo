@@ -17,6 +17,7 @@ object Battle : IManager() {
         PracticeNight,
         PracticeResult,
         BattleCombined,
+        BattleCombinedAir,
         BattleCombinedEach,
         BattleCombinedEc,
         BattleCombinedWater,
@@ -84,14 +85,14 @@ object Battle : IManager() {
         }
     }
 
-    fun calcFriendOrdinalDamage(damageList: List<Double>?, subTeam: Boolean = false) {
+    fun calcFriendOrdinalDamage(damageList: List<Double>?, combined: Boolean = false) {
         if (damageList == null) return
         val values = if (damageList.size == 7) damageList.take(6) else damageList
         val shipIds = mutableListOf<Int>()
         for ((i, value) in values.withIndex()) {
             try {
                 val fleet = if (friendCombined) {
-                    if (subTeam || i >= 6) 1 else 0
+                    if (combined || i >= 6) 1 else 0
                 } else friendIndex
                 val index = if (i >= 6) i - 6 else i
                 val friendList = getShips(fleet)
@@ -106,13 +107,13 @@ object Battle : IManager() {
         Fleet.shipWatcher.onNext(Transform.Change(shipIds))
     }
 
-    fun calcEnemyOrdinalDamage(damageList: List<Double>?, subTeam: Boolean = false) {
+    fun calcEnemyOrdinalDamage(damageList: List<Double>?, combined: Boolean = false) {
         if (damageList == null) return
         val values = if (damageList.size == 7) damageList.take(6) else damageList
         for ((i, value) in values.withIndex()) {
             try {
                 val index = if (i >= 6) i - 6 else i
-                val ship = if (subTeam) subEnemyList[index] else enemyList[index]
+                val ship = if (combined || i >= 6) subEnemyList[index] else enemyList[index]
                 val damage = value.toInt()
                 if (damage > 0) ship.damage[ship.damage.lastIndex] += damage
             } catch (e: Exception) {
@@ -191,6 +192,21 @@ object Battle : IManager() {
             "D"
         }
         println("Calc rank : $rank")
+    }
+
+    fun calcAirRank() {
+        val friendList = if (friendCombined) getShips(0).plus(getShips(1)) else getShips(friendIndex)
+        val friendNowSum = friendList.sumBy { it.nowHp }
+        val friendDamageSum = friendList.sumBy { it.damage.sum() }
+        val friendDamageRate = friendDamageSum * 100 / friendNowSum
+        rank = when {
+            friendDamageSum <= 0 -> "SS"
+            friendDamageRate < 10 -> "A"
+            friendDamageRate < 20 -> "B"
+            friendDamageRate < 50 -> "C"
+            friendDamageRate < 80 -> "D"
+            else -> "E"
+        }
     }
 
     fun phaseShift(value: Phase) {

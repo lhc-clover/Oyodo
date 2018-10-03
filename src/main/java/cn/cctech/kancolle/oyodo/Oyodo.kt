@@ -99,6 +99,7 @@ class Oyodo {
             url.endsWith("api_req_kousyou/createship_speedchange") -> object : TypeToken<CreateShipSpeedChange>() {}.type
             url.endsWith("api_get_member/questlist") -> object : TypeToken<QuestList>() {}.type
             url.endsWith("api_req_quest/clearitemget") -> object : TypeToken<QuestClear>() {}.type
+            url.endsWith("api_req_hensei/preset_select") -> object : TypeToken<PresetSelect>() {}.type
 
             url.endsWith("api_req_map/start") -> object : TypeToken<BattleStart>() {}.type
             url.endsWith("api_req_map/next") -> object : TypeToken<BattleNext>() {}.type
@@ -119,6 +120,7 @@ class Oyodo {
             url.endsWith("api_req_combined_battle/ec_midnight_battle") -> object : TypeToken<BattleCombinedNight>() {}.type
             url.endsWith("api_req_combined_battle/ec_battle") -> object : TypeToken<BattleCombinedEc>() {}.type
             url.endsWith("api_req_combined_battle/battleresult") -> object : TypeToken<BattleCombinedResult>() {}.type
+            url.endsWith("api_req_combined_battle/ld_airbattle") -> object : TypeToken<BattleCombinedAir>() {}.type
             else -> null
         }
     }
